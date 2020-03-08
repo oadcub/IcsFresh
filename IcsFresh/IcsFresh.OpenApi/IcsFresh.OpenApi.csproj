@@ -175,6 +175,7 @@
     <Compile Include="Ef\CustomerOrderTemplate.cs">
       <DependentUpon>IcsFreshDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Ef\DynamicSqlHelper.cs" />
     <Compile Include="Ef\IcsFreshDb.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -214,7 +215,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ApiControllerBase.cs" />
+    <Compile Include="Helper\ErrorViewModels.cs" />
+    <Compile Include="Helper\FilterSearch.cs" />
+    <Compile Include="Helper\JsonResultDataViewModel.cs" />
+    <Compile Include="Helper\JsonResultWrapper.cs" />
+    <Compile Include="Helper\WebApiDefaultParameter_ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\UpdatePropertyViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -298,6 +306,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\ng-table.min.js" />
+    <Content Include="Scripts\ngapp\product.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -312,13 +321,14 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\ProductPage\Index.cshtml" />
+    <Content Include="Views\ProductPage\Products.cshtml" />
     <Content Include="Scripts\ng-table.min.js.map" />
     <Content Include="Scripts\ng-table.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Scripts\global\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

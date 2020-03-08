@@ -15,3 +15,14 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.updateStatus, .updateStatus * {
+    color: orangered;
+    border-color: orangered;
+}
+
+.updatedStatus, .updatedStatus * {
+    color: darkgreen;
+    border-color: darkgreen;
+}

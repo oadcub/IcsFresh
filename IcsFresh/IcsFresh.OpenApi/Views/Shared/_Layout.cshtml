@@ -35,6 +35,15 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
+    <script>
+        var JSHELPER = {};
+
+        JSHELPER.apiDefaultParameter = ''; //'?userid=administrator';
+        JSHELPER.baseApiUrl = '@System.Configuration.ConfigurationManager.AppSettings["IcsFresh.OpenApi.Url"]';
+        JSHELPER.getWepApiUrl = function (controller, action) {
+            return JSHELPER.baseApiUrl + controller + '/' + action + JSHELPER.apiDefaultParameter;
+        }
+    </script>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

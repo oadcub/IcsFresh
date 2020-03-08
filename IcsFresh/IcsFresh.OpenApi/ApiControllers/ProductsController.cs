@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,126 +12,83 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 using IcsFresh.OpenApi.Ef;
+using IcsFresh.OpenApi.Helper;
+using IcsFresh.OpenApi.ViewModel;
+using Newtonsoft.Json;
 
 namespace IcsFresh.OpenApi.ApiControllers
 {
-    public class ProductsController : ApiController
+    [RoutePrefix("api/Products")]
+    public class ProductsController : ApiControllerBase
     {
-        private IcsFreshDbEntities db = new IcsFreshDbEntities();
 
-        // GET: api/Products
-        public async Task<IHttpActionResult> GetProducts()
+        [HttpGet]
+        [Route("Fetch")]
+        [ResponseType(typeof(JsonResultWrapper))]
+        public async Task<IHttpActionResult> Fetch()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return Json(await db.Products.ToListAsync());
-        }
-
-        // GET: api/Products/5
-        [ResponseType(typeof(Product))]
-        public async Task<IHttpActionResult> GetProduct(string id)
-        {
-            Product product = await db.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(product);
-        }
-
-        // PUT: api/Products/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutProduct(string id, Product product)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != product.Code)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(product).State = EntityState.Modified;
-
             try
             {
-                await db.SaveChangesAsync();
+                result.Datas.Data1 = await db.Products.OrderBy(x=>x.Name).ToListAsync();
+                return Json(result);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbEntityValidationException ex)
             {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                base.ErrorLog(string.Empty, ex);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            catch (Exception ex)
+            {
+                base.ErrorLog(string.Empty, ex);
+            }
+            return Json(result);
         }
 
-        // POST: api/Products
-        [ResponseType(typeof(Product))]
-        public async Task<IHttpActionResult> PostProduct(Product product)
+
+        [HttpPost]
+        [Route("Insert")]
+        [ResponseType(typeof(JsonResultWrapper))]
+        public async Task<IHttpActionResult> Insert(Product viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Products.Add(product);
-
             try
             {
+                db.Products.Add(viewModel);
                 await db.SaveChangesAsync();
+                return Json(result);
             }
-            catch (DbUpdateException)
+            catch (DbEntityValidationException ex)
             {
-                if (ProductExists(product.Code))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                base.ErrorLog(string.Empty, ex);
             }
-
-            return CreatedAtRoute("DefaultApi", new { id = product.Code }, product);
-        }
-
-        // DELETE: api/Products/5
-        [ResponseType(typeof(Product))]
-        public async Task<IHttpActionResult> DeleteProduct(string id)
-        {
-            Product product = await db.Products.FindAsync(id);
-            if (product == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                base.ErrorLog(string.Empty, ex);
             }
-
-            db.Products.Remove(product);
-            await db.SaveChangesAsync();
-
-            return Ok(product);
+            return Json(result);
         }
 
-        protected override void Dispose(bool disposing)
+        [HttpPost]
+        [Route("UpdateProperty")]
+        [ResponseType(typeof(JsonResultWrapper))]
+        public async Task<IHttpActionResult> UpdateProperty(UpdatePropertyViewModel viewModel)
         {
-            if (disposing)
+            try
             {
-                db.Dispose();
+                var row = db.Products.FirstOrDefault(x => x.Code == viewModel.Id);
+                //update
+                row.GetType().GetProperty(viewModel.Name).SetValue(row, viewModel.Value, null);
+                await db.SaveChangesAsync();
+                return Json(result);
             }
-            base.Dispose(disposing);
+            catch (DbEntityValidationException ex)
+            {
+                base.ErrorLog(string.Empty, ex);
+            }
+            catch (Exception ex)
+            {
+                base.ErrorLog(string.Empty, ex);
+            }
+            return Json(result);
         }
 
-        private bool ProductExists(string id)
-        {
-            return db.Products.Count(e => e.Code == id) > 0;
-        }
     }
 }

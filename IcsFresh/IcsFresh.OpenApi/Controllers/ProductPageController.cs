@@ -8,8 +8,7 @@ namespace IcsFresh.OpenApi.Controllers
 {
     public class ProductPageController : Controller
     {
-        // GET: ProductPage
-        public ActionResult Index()
+        public ActionResult Products()
         {
             return View();
         }
