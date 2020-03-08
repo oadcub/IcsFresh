@@ -4,23 +4,27 @@
 
 <h2>Products</h2>
 <div ng-app="productApp" ng-controller="productController">
-    <a ng-click="fetch()">Refresh</a><br />
-    <input ng-model="product.Code" placeholder="Code" /><br />
-    <input ng-model="product.Name" placeholder="Name" /><br />
-    <input ng-model="product.CategoryCode" placeholder="CategoryCode" /><br />
-    <input ng-model="product.SupplierCode" placeholder="SupplierCode" /><br />
-    <a ng-click="insert()">Add</a><br />
+    <input ng-model="product.Code" placeholder="Code" />
+    <input ng-model="product.Name" placeholder="Name" />
+    <select ng-model="product.CategoryCode" ng-change="update(item,'CategoryCode')">
+        <option ng-repeat="c in categories" value="{{c.Code}}">{{c.Name}}</option>
+    </select>
+    <select ng-model="product.SupplierCode" ng-change="update(item,'SupplierCode')">
+        <option ng-repeat="s in suppliers" value="{{s.Code}}">{{s.Name}}</option>
+    </select>
+    <a class="btn btn-success" ng-click="insert()">Add</a><br />
     <div ng-show="searchResult.length>0" class="row">
         <div class="col-lg-12">
             <table ng-table="searchResultTable" show-filter="true" class="table table-condensed table-striped">
                 <tr ng-repeat="item in finalSearchResult | filter:queryResult ">
+                    <td>
+                        <a ng-click="delete(item)">delete</a>
+                    </td>
                     <td data-title="'Code'"
                         ng-class="getCss(item,'Code')"
                         sortable="'Code'"
                         filter="{Code: 'text'}">
-                        <input ng-model="item.Name"
-                               ng-model-options='{ debounce: 3000 }'
-                               ng-change="update(item,'Code')" />
+                        {{item.Code}}
                     </td>
                     <td data-title="'Name'"
                         ng-class="getCss(item,'Name')"
@@ -35,10 +39,7 @@
                         sortable="'CategoryCode'"
                         filter="{CategoryCode: 'text'}">
                         <select ng-model="item.CategoryCode" ng-change="update(item,'CategoryCode')">
-                            <option></option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
+                            <option ng-repeat="c in categories" value="{{c.Code}}">{{c.Name}}</option>
                         </select>
                     </td>
                     <td data-title="'SupplierCode'"
@@ -46,10 +47,7 @@
                         sortable="'CategoryCode'"
                         filter="{CategoryCode: 'text'}">
                         <select ng-model="item.SupplierCode" ng-change="update(item,'SupplierCode')">
-                            <option></option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
+                            <option ng-repeat="s in suppliers" value="{{s.Code}}">{{s.Name}}</option>
                         </select>
                     </td>
                 </tr>

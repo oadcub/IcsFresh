@@ -18,8 +18,8 @@ using Newtonsoft.Json;
 
 namespace IcsFresh.OpenApi.ApiControllers
 {
-    [RoutePrefix("api/Products")]
-    public class ProductsController : ApiControllerBase
+    [RoutePrefix("api/Categories")]
+    public class CategoriesController : ApiControllerBase
     {
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace IcsFresh.OpenApi.ApiControllers
         {
             try
             {
-                result.Datas.Data1 = await db.Products.OrderBy(x=>x.Name).ToListAsync();
+                result.Datas.Data1 = await db.Categories.OrderBy(x=>x.Name).ToListAsync();
                 return Json(result);
             }
             catch (DbEntityValidationException ex)
@@ -47,11 +47,11 @@ namespace IcsFresh.OpenApi.ApiControllers
         [HttpPost]
         [Route("Insert")]
         [ResponseType(typeof(JsonResultWrapper))]
-        public async Task<IHttpActionResult> Insert(Product viewModel)
+        public async Task<IHttpActionResult> Insert(Category viewModel)
         {
             try
             {
-                db.Products.Add(viewModel);
+                db.Categories.Add(viewModel);
                 await db.SaveChangesAsync();
                 return Json(result);
             }
@@ -66,40 +66,16 @@ namespace IcsFresh.OpenApi.ApiControllers
             return Json(result);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("UpdateProperty")]
         [ResponseType(typeof(JsonResultWrapper))]
-        public void UpdateProperty(UpdatePropertyViewModel viewModel)
+        public async Task<IHttpActionResult> UpdateProperty(UpdatePropertyViewModel viewModel)
         {
             try
             {
-                var row = db.Products.FirstOrDefault(x => x.Code == viewModel.Id);
+                var row = db.Categories.FirstOrDefault(x => x.Code == viewModel.Id);
                 //update
                 row.GetType().GetProperty(viewModel.Name).SetValue(row, viewModel.Value, null);
-                db.SaveChangesAsync();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                base.ErrorLog(string.Empty, ex);
-                throw (ex);
-            }
-            catch (Exception ex)
-            {
-                base.ErrorLog(string.Empty, ex);
-                throw (ex);
-            }
-        }
-
-
-        [HttpDelete]
-        [Route("Delete/{id}")]
-        [ResponseType(typeof(JsonResultWrapper))]
-        public async Task<IHttpActionResult> Delete(string id)
-        {
-            try
-            {
-                var row = db.Products.FirstOrDefault(x => x.Code == id);
-                db.Products.Remove(row);
                 await db.SaveChangesAsync();
                 return Json(result);
             }

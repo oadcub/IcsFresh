@@ -7,6 +7,33 @@
         $scope.FilterSearch.EtdTo = new Date();
         $scope.FilterSearch.EtdFrom = new Date();
         $scope.FilterSearch.EtdFrom.setMonth(new Date().getMonth() - 3);
+
+        $http.get(JSHELPER.getWepApiUrl('Categories', 'Fetch')).then(
+            function successCallback(response) {
+                if (response.data.ErrorView.IsError) {
+                    alert(response.data.ErrorView.Message);
+                    console.log(response.data.ErrorView);
+                } else {
+                    $scope.categories = response.data.Datas.Data1;
+                }
+            },
+            function errorCallback(response) {
+                alert(response.data.Message);
+                console.log(response);
+            });
+        $http.get(JSHELPER.getWepApiUrl('Suppliers', 'Fetch')).then(
+            function successCallback(response) {
+                if (response.data.ErrorView.IsError) {
+                    alert(response.data.ErrorView.Message);
+                    console.log(response.data.ErrorView);
+                } else {
+                    $scope.suppliers = response.data.Datas.Data1;
+                }
+            },
+            function errorCallback(response) {
+                alert(response.data.Message);
+                console.log(response);
+            });
         $scope.fetch = function () {
             $http.get(JSHELPER.getWepApiUrl('Products', 'Fetch')).then(
                 function successCallback(response) {
@@ -51,7 +78,6 @@
                         alert(response.data.ErrorView.Message);
                         console.log(response.data.ErrorView);
                     } else {
-                        item.saveingColumn = propName + '_updated';
                         $scope.product = {};
                         $scope.fetch();
                     }
@@ -69,13 +95,24 @@
             viewModel.Name = propName;
             viewModel.Value = item[propName];
 
-            $http.post(JSHELPER.getWepApiUrl('Products', 'UpdateProperty'), JSON.stringify(viewModel)).then(
+            $http.put(JSHELPER.getWepApiUrl('Products', 'UpdateProperty'), JSON.stringify(viewModel)).then(
+                function successCallback(response) {
+                    item.saveingColumn = propName + '_updated';
+                },
+                function errorCallback(response) {
+                    alert(response.data.Message);
+                    console.log(response);
+                });
+        };
+
+        $scope.delete = function (item) {
+            $http.delete(JSHELPER.getWepApiUrl('Products', 'Delete') + '/' + item.Code).then(
                 function successCallback(response) {
                     if (response.data.ErrorView.IsError) {
                         alert(response.data.ErrorView.Message);
                         console.log(response.data.ErrorView);
                     } else {
-                        item.saveingColumn = propName + '_updated';
+                        $scope.fetch();
                     }
                 },
                 function errorCallback(response) {
@@ -83,6 +120,7 @@
                     console.log(response);
                 });
         };
+
         $scope.getCss = function (item, propName) {
             var css = {
                 'updateStatus': item.saveingColumn === propName,
