@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="83d9ff5c9cb044698ecee6b9afe75e53" Name="Diagram1">
+        <EntityTypeShape EntityType="IcsFreshDbModel.Category" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Customer" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.CustomerOrderTemplate" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Order" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderDetail" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderTamplate" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderTemplateDetial" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Product" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Supplier" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.User" Width="1.5" PointX="7.75" PointY="1.875" IsExpanded="true" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_Product_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_CustomerOrderTemplate_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" ManuallyRouted="false" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" ManuallyRouted="false" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_Product_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_CreatedBy" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_LastUpdateBy" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_SaleId" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
