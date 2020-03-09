@@ -86,12 +86,14 @@ namespace IcsFresh.OpenApi.ApiControllers
 
             var query = "select * from " + id;
             query += " where 1=1";
+            var paramList = new List<SqlParameter>();
             foreach (var pk in listPk)
             {
-                query += " and " + pk.FieldName + "=" + "'" + item[pk.FieldName] + "'";
+                query += " and [" + pk.FieldName + "]=" + "@" + pk.FieldName;
+                paramList.Add(new SqlParameter(pk.FieldName, item[pk.FieldName]));
                 listPkValue.Add(item[pk.FieldName].ToString());
             }
-            var list = DynamicSqlHelper.DynamicSqlQuery(db.Database, query);
+            var list = DynamicSqlHelper.DynamicSqlQuery(db.Database, query, paramList.ToArray());
 
             return Ok(list);
         }
@@ -208,7 +210,6 @@ OPTION(MAXDOP 1)";
         [Route("Update")]
         public async Task<IHttpActionResult> PutMasterData(string id, [FromBody]string json)
         {
-            
             var listPk = db.CoreTableMetaDatas.Where(x => x.TableName == id
             && x.IsPrimaryKey == true).OrderBy(x => x.Sequence).ToList();
             var listPkName = listPk.Select(x => x.FieldName).ToList();
@@ -236,9 +237,6 @@ OPTION(MAXDOP 1)";
                     }
                 }
             }
-
-
-
             if (hasSeq)
             {
                 if (tempSeq == "")
@@ -259,10 +257,13 @@ OPTION(MAXDOP 1)";
                     var existSeq = db.Database.SqlQuery<int?>(existSeqQuery).FirstOrDefault();
                     if (existSeq != null)
                     {
+                        var listParamKey = new List<SqlParameter>();
                         var sWhereSeq = " where not(1=1 ";
                         foreach (var pk in listPkName)
                         {
-                            sWhereSeq += " and " + pk + "=" + listParam.Where(x => x.ParameterName == pk).Select(x => x.Value).FirstOrDefault();
+                            sWhereSeq += " and [" + pk + "]=@" + pk;
+                            var pkValue = listParam.Where(x => x.ParameterName == pk).Select(x => x.Value).FirstOrDefault();
+                            listParamKey.Add(new SqlParameter(pk, pkValue));
                         }
                         sWhereSeq += ")";
                         var seqToReOrderQuery = @" WITH a AS(
@@ -270,29 +271,16 @@ SELECT ROW_NUMBER() OVER(ORDER BY(SELECT SEQ)) as rn, SEQ
 FROM " + id + sWhereSeq + @" and SEQ >= @seq ) 
 UPDATE a SET SEQ = @seq + rn
 OPTION(MAXDOP 1)";
+                        listParamKey.Add(new SqlParameter("Seq", tempSeq));
                         db.Database.ExecuteSqlCommand(
                 seqToReOrderQuery,
-                new SqlParameter("Seq", tempSeq));
+                listParamKey.ToArray());
 
                     }
                     listParamName.Add("Seq");
                     listParam.Add(new SqlParameter("Seq", tempSeq));
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             var sWhere = " where 1=1";
             foreach (var pk in listPkName)
             {
@@ -312,17 +300,11 @@ OPTION(MAXDOP 1)";
             var sSet = " set " + string.Join(",", arrSet);
 
 
-
-
-
-
-
             var sqlCommand = "Update " + id + sSet + sWhere;
             db.Database.ExecuteSqlCommand(
             sqlCommand,
             listParam.ToArray()
         );
-
             return StatusCode(HttpStatusCode.NoContent);
         }
 

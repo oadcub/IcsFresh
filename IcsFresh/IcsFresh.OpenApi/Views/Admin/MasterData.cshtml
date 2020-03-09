@@ -12,7 +12,7 @@
         <div class="float-right">
             <a btn-type="add" ng-show="ViewMode==='LIST'" ng-click="fn_New()"></a>
             <a btn-type="save" ng-show="ViewMode==='NEW' || ViewMode==='EDIT'" ng-click="fn_Save()"></a>
-            <a btn-type="cancel" ng-show="ViewMode==='NEW' || ViewMode==='EDIT'" ng-click="fn_Cancel()" nolabel></a>
+            <a btn-type="cancel" ng-show="ViewMode==='NEW' || ViewMode==='EDIT'" ng-click="fn_Cancel()"></a>
         </div>
 
         <hr />
@@ -54,12 +54,12 @@
                     </div>
                 }
             }
-            <table ng-table="searchResultTable" class="simple-searchresult table-inherit">
+            <table ng-table="searchResultTable" class="simple-searchresult">
                 <tr ng-repeat="item in finalSearchResult">
                     <td data-title="'#'" class="width-50 text-center">{{$index+1}}</td>
-                    <td data-title="'Edit'" class="width-50"><a btn-type="edit" nolabel ng-click="fn_Edit(item)"></a></td>
+                    <td data-title="'Edit'" class="width-50"><a btn-type="edit" ng-click="fn_Edit(item)"></a></td>
                     <td data-title="'Del'" class="width-50">
-                        <a btn-type="remove" nolabel ng-click="dialogDelete(item)"></a>
+                        <a btn-type="remove" ng-click="dialogDelete(item)"></a>
                     </td>
                     @foreach (var field in Model)
                     {
@@ -97,7 +97,7 @@
                             @if (field.Type == "select")
                             {
                                 <select ng-model="viewModel['@field.FieldName']"
-                                        ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsInsertDisabled.ToString().ToLower()))"
+                                        ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsUpdateDisabled.ToString().ToLower()))"
                                         master-data="'List_@field.TableName'" master-data-option="@field.CoreDataSourceId">
                                     <option value="" class="hidden" res="---PLease Select---"></option>
                                     <option ng-repeat="item in masterData.List_@field.FieldName" value="{{item[Option_@(field.FieldName).List_Select[0]]}}">{{item[Option_@(field.FieldName).List_Select[0]]+'-'+item[Option_@(field.FieldName).List_Select[1]]}}</option>
@@ -108,7 +108,7 @@
                                 <label class="nestedlabel">
                                     <input type="checkbox" ng-model="viewModel['@field.FieldName']"
                                            @(field.IsRequired ? "required" : "")
-                                           ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsInsertDisabled.ToString().ToLower()))" />
+                                           ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsUpdateDisabled.ToString().ToLower()))" />
                                     @if (field.ValueUI != null)
                                     {
                                         <span>
@@ -124,7 +124,7 @@
                                     <input type="radio" ng-model="viewModel['@field.FieldName']"
                                            @(field.IsRequired ? "required" : "")
                                            ng-value="true"
-                                           ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsInsertDisabled.ToString().ToLower()))" />
+                                           ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsUpdateDisabled.ToString().ToLower()))" />
                                     @if (field.ValueUI != null)
                                     {
                                         <span>
@@ -137,7 +137,7 @@
                                     <input type="radio" ng-model="viewModel['@field.FieldName']"
                                            @(field.IsRequired ? "required" : "")
                                            ng-value="false"
-                                           ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsInsertDisabled.ToString().ToLower()))" />
+                                           ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsUpdateDisabled.ToString().ToLower()))" />
                                     @if (field.ValueUI != null)
                                     {
                                         <span>
@@ -151,7 +151,7 @@
                             else
                             {
                                 <input ng-model="viewModel['@field.FieldName']"
-                                       ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsInsertDisabled.ToString().ToLower()))"
+                                       ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsUpdateDisabled.ToString().ToLower()))"
                                        type="text"
                                        @(field.IsRequired ? "required" : "")
                                        class="form-control">
@@ -173,11 +173,30 @@
     <link href="~/Content/ui-bootstrap-csp.css" rel="stylesheet" />
     <script src="~/Scripts/global/PageHelper.js"></script>
     <script>
-        var app = angular.module('myApp', ['ngTable', 'ui.bootstrap']);
+        var app = angular.module('myApp', ['ngTable', 'ui.bootstrap', 'ngSanitize']);
+        
+app.directive('masterData', function (KdaHttp, $compile, $uibModal) {
+    return {
+        replace: false,
+        restrict: 'A',
+        scope: {
+            masterData: '=?',
+            masterDataOption: '=?'
+        }
+        , link: function (scope, elm, attrs) {
+            KdaHttp.Post('masterdata', 'AutoComplete', scope.masterDataOption)
+                .then(function (response) {
+                    if (scope.$parent.masterData === undefined) {
+                        scope.$parent.masterData = {};
+                    }
+                    scope.$parent.masterData[scope.masterData] = response;
+                });
+        }
+    };
+});
     </script>
-    <script src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>
-    <script src="~/Scripts/ngapp/_service/http-client.service.js"></script>
-    <script src="~/Scripts/ngapp/_factory/utility.factory.js"></script>
-    <script src="~/Scripts/ngapp/MasterData.js"></script>
+    <script src="~/Scripts_ngapp/_service/http-client.service.js"></script>
+    <script src="~/Scripts_ngapp/_factory/utility.factory.js"></script>
+    <script src="~/Scripts_ngapp/MasterData.js"></script>
 
 }

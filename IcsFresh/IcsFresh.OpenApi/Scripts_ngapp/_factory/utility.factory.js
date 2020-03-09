@@ -195,7 +195,7 @@
     }
 
     function GetTemplate(FileName) {
-        return GLOBAL_VARIABLE.WebUrl + '/Scripts_ngapp/_factory/template/' + FileName + '.html?v=' + moment()
+        return GLOBAL_VARIABLE.WebUrl + '/Scripts_ngapp/_factory/template/' + FileName + '.html';
     }
 
 

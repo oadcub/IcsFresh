@@ -122,7 +122,7 @@
     function ApiError(response) {
         $('#loading').fadeOut(400, "linear");
         $uibModal.open({
-            templateUrl: GLOBAL_VARIABLE.WebUrl + 'Scripts_ngapp/_service/http-client.modal.html?v='+ moment(),
+            templateUrl: GLOBAL_VARIABLE.WebUrl + 'Scripts_ngapp/_service/http-client.modal.html',
            
             controller: function ($scope,$sce, $uibModalInstance) {
                 $scope.highlight = function(text, search) {

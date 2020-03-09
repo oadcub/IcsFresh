@@ -51,6 +51,7 @@ this.isEmpty = function (obj) {
 
         JSHELPER.apiDefaultParameter = ''; //'?userid=administrator';
         JSHELPER.baseApiUrl = '@System.Configuration.ConfigurationManager.AppSettings["IcsFresh.OpenApi.Url"]';
+        JSHELPER.WebUrl = '@System.Configuration.ConfigurationManager.AppSettings["IcsFresh.OpenApi.WebUrl"]';
         JSHELPER.getWepApiUrl = function (controller, action) {
             return JSHELPER.baseApiUrl + controller + '/' + action + JSHELPER.apiDefaultParameter;
         }
@@ -61,12 +62,14 @@ this.isEmpty = function (obj) {
     @Scripts.Render("~/bundles/bootstrap")
 
     <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-sanitize.min.js"></script>
     <script src="~/Scripts/angular-animate.min.js"></script>
     <script src="~/Scripts/angular-aria.min.js"></script>
     <script src="~/Scripts/angular-messages.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
     <script src="~/Scripts/angular-material.min.js"></script>
     <script src="~/Scripts/ng-table.min.js"></script>
-
 
     @RenderSection("scripts", required: false)
 </body>
