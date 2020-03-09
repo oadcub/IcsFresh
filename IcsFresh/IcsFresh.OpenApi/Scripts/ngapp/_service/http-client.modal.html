@@ -1,0 +1,29 @@
+﻿<div class="modal-content" style="background-color:#7b7b7b;border-color: #7b7b7b;">
+
+    <div class="modal-header">
+        <h3 class="modal-title" style="color: #ffffff;">Api Error Status {{Content.status}} {{Content.statusText}}</h3>
+    </div>
+    <div class="modal-body">
+        <style>
+            .StackTrace {
+                white-space: pre-line;
+                word-break: break-word;
+                height: 50vh;
+                overflow: scroll;
+            }
+        </style>
+        <div class="row" ng-repeat="(key, value) in Content.data">
+            <div class="col-lg-12">
+                <h3><span class="label label-danger">{{key}}</span></h3>
+                <div class="well well-sm" ng-class="{'StackTrace': key === 'StackTrace'}" style="background-color: #636363;color: #fff;border-color: #545353;">
+                    <span ng-bind-html="highlight(value, 'line')"></span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" type="button" ng-click="ok()">OK</button>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿ 
+
+<div class="modal-content kda-dialog-{{Dialog.type}}">
+    <div class="modal-header" ng-show="Dialog.isTitle"  style="padding: 10px;border:none">
+        <h3 class="modal-title" style="font-weight: bold;">{{Dialog.title}}</h3>
+    </div>
+    <div class="modal-body " ng-bind-html="Dialog.content" style="padding: 0px 10px;border:none">
+        {{Dialog.content}}
+    </div>
+    <div class="modal-footer " style="padding: 10px;border:none">
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-sm btn-default" type="button" ng-click="fn_OnSuccess()">{{Dialog.textOk}}</button>
+                <button class="btn btn-sm btn-black-opacity-alt" type="button" ng-click="fn_OnCancel()">{{Dialog.textCancel}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,27 +5,29 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="83d9ff5c9cb044698ecee6b9afe75e53" Name="Diagram1">
-        <EntityTypeShape EntityType="IcsFreshDbModel.Category" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.Customer" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.CustomerOrderTemplate" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.Order" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.OrderDetail" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.OrderTamplate" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.OrderTemplateDetial" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.Product" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.Supplier" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.User" Width="1.5" PointX="7.75" PointY="1.875" IsExpanded="true" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_Product_Category" ManuallyRouted="false" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_CustomerOrderTemplate_Customer" ManuallyRouted="false" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" ManuallyRouted="false" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Order" ManuallyRouted="false" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" ManuallyRouted="false" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_Product_Supplier" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Category" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Customer" Width="1.5" PointX="3" PointY="16.5" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.CustomerOrderTemplate" Width="1.5" PointX="5.25" PointY="12.75" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Order" Width="1.5" PointX="3" PointY="8" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderDetail" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderTamplate" Width="1.5" PointX="3" PointY="13" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderTemplateDetial" Width="1.5" PointX="5.25" PointY="4" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Product" Width="1.5" PointX="3" PointY="3.5" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.Supplier" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.User" Width="1.5" PointX="0.75" PointY="8.625" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.CoreTableMetaData" Width="1.5" PointX="5.75" PointY="7" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_Product_Category" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_CustomerOrderTemplate_Customer" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_CreatedBy" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_LastUpdateBy" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_SaleId" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Order" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Product" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_Product" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_Product_Supplier" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.CoreLanguage" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

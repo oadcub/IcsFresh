@@ -44,8 +44,8 @@
                     </td>
                     <td data-title="'SupplierCode'"
                         ng-class="getCss(item,'SupplierCode')"
-                        sortable="'CategoryCode'"
-                        filter="{CategoryCode: 'text'}">
+                        sortable="'SupplierCode'"
+                        filter="{SupplierCode: 'text'}">
                         <select ng-model="item.SupplierCode" ng-change="update(item,'SupplierCode')">
                             <option ng-repeat="s in suppliers" value="{{s.Code}}">{{s.Name}}</option>
                         </select>

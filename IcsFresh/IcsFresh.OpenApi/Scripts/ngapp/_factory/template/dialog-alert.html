@@ -1,0 +1,16 @@
+﻿
+<div class="modal-content kda-dialog-{{type}}">
+    <div class="modal-footer" style="padding: 10px;border:none">
+        <div class="row" style="position:relative;">
+            <div class="col-sm-1 text-center" style="">
+                <i class="glyph-icon icon-{{icon}} kda-dialog-icon"></i>
+            </div>
+            <div class="col-sm-9 text-left" style="line-height: 30px;overflow-wrap: break-word;" ng-bind-html="text">
+                <!--<span class="kda-dialog-text">{{text}}</span>-->
+            </div>
+            <div class="col-sm-2 text-right kda-alert-button">
+                <button class="btn btn-sm btn-default" type="button" ng-click="fn_OnSuccess()" autofocus>OK</button>
+            </div>
+        </div>
+    </div>
+</div>

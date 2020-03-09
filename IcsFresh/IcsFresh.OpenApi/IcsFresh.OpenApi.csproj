@@ -16,7 +16,7 @@
     <AssemblyName>IcsFresh.OpenApi</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44394</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
@@ -56,11 +56,18 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -130,6 +137,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\MasterDataController.cs" />
+    <Compile Include="ApiControllers\LanguageController.cs" />
     <Compile Include="ApiControllers\SuppliersController.cs" />
     <Compile Include="ApiControllers\CategoriesController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -164,11 +173,18 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="ApiControllers\ProductsController.cs" />
     <Compile Include="Controllers\ProductPageController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Ef\Category.cs">
+      <DependentUpon>IcsFreshDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ef\CoreLanguage.cs">
+      <DependentUpon>IcsFreshDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ef\CoreTableMetaData.cs">
       <DependentUpon>IcsFreshDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Ef\Customer.cs">
@@ -222,6 +238,7 @@
     <Compile Include="Helper\FilterSearch.cs" />
     <Compile Include="Helper\JsonResultDataViewModel.cs" />
     <Compile Include="Helper\JsonResultWrapper.cs" />
+    <Compile Include="Helper\SearchCondition.cs" />
     <Compile Include="Helper\WebApiDefaultParameter_ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\UpdatePropertyViewModel.cs" />
@@ -241,6 +258,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ng-table.css" />
     <Content Include="Content\ng-table.min.css" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Ef\IcsFreshDb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>IcsFreshDb.edmx</DependentUpon>
@@ -264,6 +282,10 @@
     <Content Include="Scripts\angular-messages.js" />
     <Content Include="Scripts\angular-messages.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -301,6 +323,7 @@
     <Content Include="Content\ng-table.min.css.map" />
     <Content Include="Content\ng-table.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\global\PageHelper.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -308,7 +331,27 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\ng-table.min.js" />
+    <Content Include="Scripts\ngapp\MasterData.js" />
     <Content Include="Scripts\ngapp\product.js" />
+    <Content Include="Scripts\ngapp\_directive\autocomplete\autocomplete-item.directive.html" />
+    <Content Include="Scripts\ngapp\_directive\autocomplete\autocomplete.directive.html" />
+    <Content Include="Scripts\ngapp\_directive\autocomplete\autocomplete.directive.js" />
+    <Content Include="Scripts\ngapp\_directive\autocomplete\autocomplete.error.html" />
+    <Content Include="Scripts\ngapp\_directive\btn-confirm\btn-confirm.directive.html" />
+    <Content Include="Scripts\ngapp\_directive\btn-confirm\btn-confirm.directive.js" />
+    <Content Include="Scripts\ngapp\_directive\btn-confirm\dialog-confirm.directive.html" />
+    <Content Include="Scripts\ngapp\_directive\datepicker\datepicker.directive.html" />
+    <Content Include="Scripts\ngapp\_directive\datepicker\datepicker.directive.js" />
+    <Content Include="Scripts\ngapp\_directive\datepicker\datepicker.error.html" />
+    <Content Include="Scripts\ngapp\_directive\format-time\format-time.error.html" />
+    <Content Include="Scripts\ngapp\_directive\format-time\format-time.js" />
+    <Content Include="Scripts\ngapp\_factory\template\dialog-alert-window.html" />
+    <Content Include="Scripts\ngapp\_factory\template\dialog-alert.html" />
+    <Content Include="Scripts\ngapp\_factory\template\dialog-form-window.html" />
+    <Content Include="Scripts\ngapp\_factory\template\dialog.html" />
+    <Content Include="Scripts\ngapp\_factory\utility.factory.js" />
+    <Content Include="Scripts\ngapp\_service\http-client.modal.html" />
+    <Content Include="Scripts\ngapp\_service\http-client.service.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -326,11 +369,11 @@
     <Content Include="Views\ProductPage\Products.cshtml" />
     <Content Include="Scripts\ng-table.min.js.map" />
     <Content Include="Scripts\ng-table.js.map" />
+    <Content Include="Views\Admin\MasterData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\global\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -382,7 +425,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56240</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44394/</IISUrl>
+          <IISUrl>http://localhost/IcsFresh.OpenApi</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

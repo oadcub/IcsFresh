@@ -1,0 +1,16 @@
+<div class="input-group">
+    <input type="text"
+           class="form-control {{dtpClass}}"
+           ng-model="ngModel"
+           ng-blur="OnBlur($event)"
+           is-open="opened"
+           uib-datepicker-popup="dd/MM/yyyy"
+           ng-required="true"
+           close-text="Close"
+           datepicker-options="KdaDatePickerOptions"/>
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default kda-dtp-btn" ng-click="opened = true">
+            <i class="glyph-icon icon-calendar"></i>
+        </button>
+    </span>
+</div>

@@ -36,6 +36,17 @@
         </footer>
     </div>
     <script>
+
+this.undefinedToEmpty = function (obj) {
+    if (obj == undefined || obj == null) {
+        return '';
+    } else {
+        return obj;
+    }
+}
+this.isEmpty = function (obj) {
+    return this.undefinedToEmpty(obj) == '';
+}
         var JSHELPER = {};
 
         JSHELPER.apiDefaultParameter = ''; //'?userid=administrator';
@@ -43,6 +54,7 @@
         JSHELPER.getWepApiUrl = function (controller, action) {
             return JSHELPER.baseApiUrl + controller + '/' + action + JSHELPER.apiDefaultParameter;
         }
+        GLOBAL_VARIABLE = JSHELPER;
     </script>
 
     @Scripts.Render("~/bundles/jquery")

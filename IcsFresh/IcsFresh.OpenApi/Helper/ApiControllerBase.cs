@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using IcsFresh.OpenApi.Ef;
 using IcsFresh.OpenApi.ViewModel;
 
 namespace IcsFresh.OpenApi.Helper
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ApiControllerBase : ApiController
     {
         public IcsFreshDbEntities db = new IcsFreshDbEntities();

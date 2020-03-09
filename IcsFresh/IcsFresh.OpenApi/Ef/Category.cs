@@ -22,7 +22,7 @@ namespace IcsFresh.OpenApi.Ef
     
         public string Code { get; set; }
         public string Name { get; set; }
-        public int Sequence { get; set; }
+        public int Seq { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }

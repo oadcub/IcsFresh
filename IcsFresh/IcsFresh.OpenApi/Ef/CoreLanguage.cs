@@ -12,15 +12,11 @@ namespace IcsFresh.OpenApi.Ef
     using System;
     using System.Collections.Generic;
     
-    public partial class CustomerOrderTemplate
+    public partial class CoreLanguage
     {
-        public System.Guid Id { get; set; }
-        public string Name { get; set; }
-        public string CustomerCode { get; set; }
-        public string TemplateCode { get; set; }
-        public int Seq { get; set; }
-    
-        public virtual Customer Customer { get; set; }
-        public virtual OrderTamplate OrderTamplate { get; set; }
+        public string CoreLanguageId { get; set; }
+        public int MenuId { get; set; }
+        public string Value { get; set; }
+        public string Culture { get; set; }
     }
 }

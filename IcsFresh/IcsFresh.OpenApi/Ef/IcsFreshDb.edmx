@@ -11,7 +11,50 @@
           </Key>
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Seq" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CoreLanguage">
+          <Key>
+            <PropertyRef Name="CoreLanguageId" />
+          </Key>
+          <Property Name="CoreLanguageId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Culture" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CoreTableMetaDatas">
+          <Key>
+            <PropertyRef Name="TableName" />
+            <PropertyRef Name="FieldName" />
+            <PropertyRef Name="IsPrimaryKey" />
+            <PropertyRef Name="Sequence" />
+            <PropertyRef Name="Label" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="IsRequired" />
+            <PropertyRef Name="IsSearchFilter" />
+            <PropertyRef Name="IsVisibleInSearchResult" />
+            <PropertyRef Name="IsVisibleInForm" />
+            <PropertyRef Name="IsInsertDisabled" />
+            <PropertyRef Name="IsUpdateDisabled" />
+          </Key>
+          <Property Name="TableName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FieldName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsPrimaryKey" Type="bit" Nullable="false" />
           <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="Label" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsRequired" Type="bit" Nullable="false" />
+          <Property Name="CoreDataSourceId" Type="nvarchar" MaxLength="500" />
+          <Property Name="PlaceHolder" Type="nvarchar" MaxLength="50" />
+          <Property Name="DefaultValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsSearchFilter" Type="bit" Nullable="false" />
+          <Property Name="IsVisibleInSearchResult" Type="bit" Nullable="false" />
+          <Property Name="IsVisibleInForm" Type="bit" Nullable="false" />
+          <Property Name="IsInsertDisabled" Type="bit" Nullable="false" />
+          <Property Name="IsUpdateDisabled" Type="bit" Nullable="false" />
+          <Property Name="ValueUI" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -35,7 +78,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TemplateCode" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="Seq" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -58,7 +101,7 @@
           <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ProductCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Price" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="Seq" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderTamplate">
           <Key>
@@ -75,17 +118,18 @@
           </Key>
           <Property Name="TemplateCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductCode" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Sequence" Type="nvarchar" MaxLength="50" />
+          <Property Name="Seq" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Code" />
           </Key>
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="CategoryCode" Type="nvarchar" MaxLength="50" />
           <Property Name="SupplierCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Seq" Type="int" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -236,6 +280,7 @@
         </Association>
         <EntityContainer Name="IcsFreshDbModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CoreLanguage" EntityType="Self.CoreLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerOrderTemplate" EntityType="Self.CustomerOrderTemplate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
@@ -245,6 +290,26 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CoreTableMetaDatas" EntityType="Self.CoreTableMetaDatas" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CoreTableMetaDatas].[TableName] AS [TableName], 
+    [CoreTableMetaDatas].[FieldName] AS [FieldName], 
+    [CoreTableMetaDatas].[IsPrimaryKey] AS [IsPrimaryKey], 
+    [CoreTableMetaDatas].[Sequence] AS [Sequence], 
+    [CoreTableMetaDatas].[Label] AS [Label], 
+    [CoreTableMetaDatas].[Type] AS [Type], 
+    [CoreTableMetaDatas].[IsRequired] AS [IsRequired], 
+    [CoreTableMetaDatas].[CoreDataSourceId] AS [CoreDataSourceId], 
+    [CoreTableMetaDatas].[PlaceHolder] AS [PlaceHolder], 
+    [CoreTableMetaDatas].[DefaultValue] AS [DefaultValue], 
+    [CoreTableMetaDatas].[IsSearchFilter] AS [IsSearchFilter], 
+    [CoreTableMetaDatas].[IsVisibleInSearchResult] AS [IsVisibleInSearchResult], 
+    [CoreTableMetaDatas].[IsVisibleInForm] AS [IsVisibleInForm], 
+    [CoreTableMetaDatas].[IsInsertDisabled] AS [IsInsertDisabled], 
+    [CoreTableMetaDatas].[IsUpdateDisabled] AS [IsUpdateDisabled], 
+    [CoreTableMetaDatas].[ValueUI] AS [ValueUI]
+    FROM [dbo].[CoreTableMetaDatas] AS [CoreTableMetaDatas]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_CustomerOrderTemplate_Customer" Association="Self.FK_CustomerOrderTemplate_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="CustomerOrderTemplate" EntitySet="CustomerOrderTemplate" />
@@ -294,263 +359,29 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="IcsFreshDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Category">
-          <Key>
-            <PropertyRef Name="Code" />
-          </Key>
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Code" />
-          </Key>
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PostCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CustomerOrderTemplates" Relationship="Self.FK_CustomerOrderTemplate_Customer" FromRole="Customer" ToRole="CustomerOrderTemplate" />
-        </EntityType>
-        <EntityType Name="CustomerOrderTemplate">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="TemplateCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerOrderTemplate_Customer" FromRole="CustomerOrderTemplate" ToRole="Customer" />
-          <NavigationProperty Name="OrderTamplate" Relationship="Self.FK_CustomerOrderTemplate_OrderTamplate" FromRole="CustomerOrderTemplate" ToRole="OrderTamplate" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <Property Name="SaleId" Type="Guid" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="LastUpdate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="Guid" />
-          <Property Name="LastUpdateBy" Type="Guid" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
-          <NavigationProperty Name="User" Relationship="IcsFreshDbModel.FK_Order_User_CreatedBy" FromRole="Order" ToRole="User" />
-          <NavigationProperty Name="User1" Relationship="IcsFreshDbModel.FK_Order_User_LastUpdateBy" FromRole="Order" ToRole="User" />
-          <NavigationProperty Name="User2" Relationship="IcsFreshDbModel.FK_Order_User_SaleId" FromRole="Order" ToRole="User" />
-        </EntityType>
-        <EntityType Name="OrderDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Guid" Nullable="false" />
-          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Price" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="OrderTamplate">
-          <Key>
-            <PropertyRef Name="Code" />
-          </Key>
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CustomerOrderTemplates" Relationship="Self.FK_CustomerOrderTemplate_OrderTamplate" FromRole="OrderTamplate" ToRole="CustomerOrderTemplate" />
-          <NavigationProperty Name="OrderTemplateDetials" Relationship="Self.FK_OrderTemplateDetial_OrderTamplate" FromRole="OrderTamplate" ToRole="OrderTemplateDetial" />
-        </EntityType>
-        <EntityType Name="OrderTemplateDetial">
-          <Key>
-            <PropertyRef Name="TemplateCode" />
-            <PropertyRef Name="ProductCode" />
-          </Key>
-          <Property Name="TemplateCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Sequence" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderTamplate" Relationship="Self.FK_OrderTemplateDetial_OrderTamplate" FromRole="OrderTemplateDetial" ToRole="OrderTamplate" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_OrderTemplateDetial_Product" FromRole="OrderTemplateDetial" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="Code" />
-          </Key>
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SupplierCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
-          <NavigationProperty Name="OrderTemplateDetials" Relationship="Self.FK_OrderTemplateDetial_Product" FromRole="Product" ToRole="OrderTemplateDetial" />
-          <NavigationProperty Name="Supplier" Relationship="Self.FK_Product_Supplier" FromRole="Product" ToRole="Supplier" />
-        </EntityType>
-        <EntityType Name="Supplier">
-          <Key>
-            <PropertyRef Name="Code" />
-          </Key>
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Supplier" FromRole="Supplier" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="IcsFreshDbModel.FK_Order_User_CreatedBy" FromRole="User" ToRole="Order" />
-          <NavigationProperty Name="Orders1" Relationship="IcsFreshDbModel.FK_Order_User_LastUpdateBy" FromRole="User" ToRole="Order" />
-          <NavigationProperty Name="Orders2" Relationship="IcsFreshDbModel.FK_Order_User_SaleId" FromRole="User" ToRole="Order" />
-        </EntityType>
-        <Association Name="FK_Product_Category">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="Code" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="CategoryCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CustomerOrderTemplate_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
-          <End Role="CustomerOrderTemplate" Type="Self.CustomerOrderTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Code" />
-            </Principal>
-            <Dependent Role="CustomerOrderTemplate">
-              <PropertyRef Name="CustomerCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CustomerOrderTemplate_OrderTamplate">
-          <End Role="OrderTamplate" Type="Self.OrderTamplate" Multiplicity="1" />
-          <End Role="CustomerOrderTemplate" Type="Self.CustomerOrderTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderTamplate">
-              <PropertyRef Name="Code" />
-            </Principal>
-            <Dependent Role="CustomerOrderTemplate">
-              <PropertyRef Name="TemplateCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDetail_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="1" />
-          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDetail_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Code" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="ProductCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderTemplateDetial_OrderTamplate">
-          <End Role="OrderTamplate" Type="Self.OrderTamplate" Multiplicity="1" />
-          <End Role="OrderTemplateDetial" Type="Self.OrderTemplateDetial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderTamplate">
-              <PropertyRef Name="Code" />
-            </Principal>
-            <Dependent Role="OrderTemplateDetial">
-              <PropertyRef Name="TemplateCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderTemplateDetial_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="OrderTemplateDetial" Type="Self.OrderTemplateDetial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Code" />
-            </Principal>
-            <Dependent Role="OrderTemplateDetial">
-              <PropertyRef Name="ProductCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_Supplier">
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supplier">
-              <PropertyRef Name="Code" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="SupplierCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="IcsFreshDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Customers" EntityType="Self.Customer" />
-          <EntitySet Name="CustomerOrderTemplates" EntityType="Self.CustomerOrderTemplate" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
-          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
-          <EntitySet Name="OrderTamplates" EntityType="Self.OrderTamplate" />
-          <EntitySet Name="OrderTemplateDetials" EntityType="Self.OrderTemplateDetial" />
-          <EntitySet Name="Products" EntityType="Self.Product" />
-          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
+          <EntitySet Name="Categories" EntityType="IcsFreshDbModel.Category" />
+          <EntitySet Name="Customers" EntityType="IcsFreshDbModel.Customer" />
+          <EntitySet Name="CustomerOrderTemplates" EntityType="IcsFreshDbModel.CustomerOrderTemplate" />
+          <EntitySet Name="Orders" EntityType="IcsFreshDbModel.Order" />
+          <EntitySet Name="OrderDetails" EntityType="IcsFreshDbModel.OrderDetail" />
+          <EntitySet Name="OrderTamplates" EntityType="IcsFreshDbModel.OrderTamplate" />
+          <EntitySet Name="OrderTemplateDetials" EntityType="IcsFreshDbModel.OrderTemplateDetial" />
+          <EntitySet Name="Products" EntityType="IcsFreshDbModel.Product" />
+          <EntitySet Name="Suppliers" EntityType="IcsFreshDbModel.Supplier" />
+          <EntitySet Name="Users" EntityType="IcsFreshDbModel.User" />
+          <EntitySet Name="CoreTableMetaDatas" EntityType="IcsFreshDbModel.CoreTableMetaData" />
+          <AssociationSet Name="FK_Product_Category" Association="IcsFreshDbModel.FK_Product_Category">
             <End Role="Category" EntitySet="Categories" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="FK_CustomerOrderTemplate_Customer" Association="Self.FK_CustomerOrderTemplate_Customer">
+          <AssociationSet Name="FK_CustomerOrderTemplate_Customer" Association="IcsFreshDbModel.FK_CustomerOrderTemplate_Customer">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="CustomerOrderTemplate" EntitySet="CustomerOrderTemplates" />
           </AssociationSet>
-          <AssociationSet Name="FK_CustomerOrderTemplate_OrderTamplate" Association="Self.FK_CustomerOrderTemplate_OrderTamplate">
+          <AssociationSet Name="FK_CustomerOrderTemplate_OrderTamplate" Association="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate">
             <End Role="OrderTamplate" EntitySet="OrderTamplates" />
             <End Role="CustomerOrderTemplate" EntitySet="CustomerOrderTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_Product" Association="Self.FK_OrderDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderTemplateDetial_OrderTamplate" Association="Self.FK_OrderTemplateDetial_OrderTamplate">
-            <End Role="OrderTamplate" EntitySet="OrderTamplates" />
-            <End Role="OrderTemplateDetial" EntitySet="OrderTemplateDetials" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderTemplateDetial_Product" Association="Self.FK_OrderTemplateDetial_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderTemplateDetial" EntitySet="OrderTemplateDetials" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Supplier" Association="Self.FK_Product_Supplier">
-            <End Role="Supplier" EntitySet="Suppliers" />
-            <End Role="Product" EntitySet="Products" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_User_CreatedBy" Association="IcsFreshDbModel.FK_Order_User_CreatedBy">
             <End Role="User" EntitySet="Users" />
@@ -564,7 +395,216 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Order" Association="IcsFreshDbModel.FK_OrderDetail_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Product" Association="IcsFreshDbModel.FK_OrderDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTemplateDetial_OrderTamplate" Association="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate">
+            <End Role="OrderTamplate" EntitySet="OrderTamplates" />
+            <End Role="OrderTemplateDetial" EntitySet="OrderTemplateDetials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTemplateDetial_Product" Association="IcsFreshDbModel.FK_OrderTemplateDetial_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderTemplateDetial" EntitySet="OrderTemplateDetials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Supplier" Association="IcsFreshDbModel.FK_Product_Supplier">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <EntitySet Name="CoreLanguages" EntityType="IcsFreshDbModel.CoreLanguage" />
         </EntityContainer>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Seq" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="IcsFreshDbModel.FK_Product_Category" FromRole="Category" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerOrderTemplates" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_Customer" FromRole="Customer" ToRole="CustomerOrderTemplate" />
+        </EntityType>
+        <EntityType Name="CustomerOrderTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemplateCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Seq" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_Customer" FromRole="CustomerOrderTemplate" ToRole="Customer" />
+          <NavigationProperty Name="OrderTamplate" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" FromRole="CustomerOrderTemplate" ToRole="OrderTamplate" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="SaleId" Type="Guid" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" />
+          <Property Name="LastUpdateBy" Type="Guid" />
+          <NavigationProperty Name="User" Relationship="IcsFreshDbModel.FK_Order_User_CreatedBy" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="IcsFreshDbModel.FK_Order_User_LastUpdateBy" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="User2" Relationship="IcsFreshDbModel.FK_Order_User_SaleId" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="OrderDetails" Relationship="IcsFreshDbModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Guid" Nullable="false" />
+          <Property Name="ProductCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Seq" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="IcsFreshDbModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="IcsFreshDbModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="OrderTamplate">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerOrderTemplates" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" FromRole="OrderTamplate" ToRole="CustomerOrderTemplate" />
+          <NavigationProperty Name="OrderTemplateDetials" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" FromRole="OrderTamplate" ToRole="OrderTemplateDetial" />
+        </EntityType>
+        <EntityType Name="OrderTemplateDetial">
+          <Key>
+            <PropertyRef Name="TemplateCode" />
+            <PropertyRef Name="ProductCode" />
+          </Key>
+          <Property Name="TemplateCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Seq" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderTamplate" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" FromRole="OrderTemplateDetial" ToRole="OrderTamplate" />
+          <NavigationProperty Name="Product" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_Product" FromRole="OrderTemplateDetial" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Seq" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="IcsFreshDbModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="OrderDetails" Relationship="IcsFreshDbModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
+          <NavigationProperty Name="OrderTemplateDetials" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_Product" FromRole="Product" ToRole="OrderTemplateDetial" />
+          <NavigationProperty Name="Supplier" Relationship="IcsFreshDbModel.FK_Product_Supplier" FromRole="Product" ToRole="Supplier" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="IcsFreshDbModel.FK_Product_Supplier" FromRole="Supplier" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="IcsFreshDbModel.FK_Order_User_CreatedBy" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="Orders1" Relationship="IcsFreshDbModel.FK_Order_User_LastUpdateBy" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="Orders2" Relationship="IcsFreshDbModel.FK_Order_User_SaleId" FromRole="User" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="CoreTableMetaData">
+          <Key>
+            <PropertyRef Name="TableName" />
+            <PropertyRef Name="FieldName" />
+            <PropertyRef Name="IsPrimaryKey" />
+            <PropertyRef Name="Sequence" />
+            <PropertyRef Name="Label" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="IsRequired" />
+            <PropertyRef Name="IsSearchFilter" />
+            <PropertyRef Name="IsVisibleInSearchResult" />
+            <PropertyRef Name="IsVisibleInForm" />
+            <PropertyRef Name="IsInsertDisabled" />
+            <PropertyRef Name="IsUpdateDisabled" />
+          </Key>
+          <Property Name="TableName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FieldName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsPrimaryKey" Type="Boolean" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="Label" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
+          <Property Name="CoreDataSourceId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceHolder" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsSearchFilter" Type="Boolean" Nullable="false" />
+          <Property Name="IsVisibleInSearchResult" Type="Boolean" Nullable="false" />
+          <Property Name="IsVisibleInForm" Type="Boolean" Nullable="false" />
+          <Property Name="IsInsertDisabled" Type="Boolean" Nullable="false" />
+          <Property Name="IsUpdateDisabled" Type="Boolean" Nullable="false" />
+          <Property Name="ValueUI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Product_Category">
+          <End Type="IcsFreshDbModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="IcsFreshDbModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderTemplate_Customer">
+          <End Type="IcsFreshDbModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="IcsFreshDbModel.CustomerOrderTemplate" Role="CustomerOrderTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="CustomerOrderTemplate">
+              <PropertyRef Name="CustomerCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrderTemplate_OrderTamplate">
+          <End Type="IcsFreshDbModel.OrderTamplate" Role="OrderTamplate" Multiplicity="1" />
+          <End Type="IcsFreshDbModel.CustomerOrderTemplate" Role="CustomerOrderTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderTamplate">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="CustomerOrderTemplate">
+              <PropertyRef Name="TemplateCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Order_User_CreatedBy">
           <End Type="IcsFreshDbModel.User" Role="User" Multiplicity="0..1" />
           <End Type="IcsFreshDbModel.Order" Role="Order" Multiplicity="*" />
@@ -601,7 +641,76 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_OrderDetail_Order">
+          <End Type="IcsFreshDbModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="IcsFreshDbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Product">
+          <End Type="IcsFreshDbModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="IcsFreshDbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTemplateDetial_OrderTamplate">
+          <End Type="IcsFreshDbModel.OrderTamplate" Role="OrderTamplate" Multiplicity="1" />
+          <End Type="IcsFreshDbModel.OrderTemplateDetial" Role="OrderTemplateDetial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderTamplate">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="OrderTemplateDetial">
+              <PropertyRef Name="TemplateCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTemplateDetial_Product">
+          <End Type="IcsFreshDbModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="IcsFreshDbModel.OrderTemplateDetial" Role="OrderTemplateDetial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="OrderTemplateDetial">
+              <PropertyRef Name="ProductCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Supplier">
+          <End Type="IcsFreshDbModel.Supplier" Role="Supplier" Multiplicity="0..1" />
+          <End Type="IcsFreshDbModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SupplierCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CoreLanguage">
+          <Key>
+            <PropertyRef Name="CoreLanguageId" />
+          </Key>
+          <Property Name="CoreLanguageId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Culture" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -610,106 +719,139 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="IcsFreshDbModel.Category">
               <MappingFragment StoreEntitySet="Category">
-                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="IcsFreshDbModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
                 <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomerOrderTemplates">
             <EntityTypeMapping TypeName="IcsFreshDbModel.CustomerOrderTemplate">
               <MappingFragment StoreEntitySet="CustomerOrderTemplate">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="TemplateCode" ColumnName="TemplateCode" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="IcsFreshDbModel.Order">
               <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="LastUpdateBy" ColumnName="LastUpdateBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderDetails">
             <EntityTypeMapping TypeName="IcsFreshDbModel.OrderDetail">
               <MappingFragment StoreEntitySet="OrderDetail">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderTamplates">
             <EntityTypeMapping TypeName="IcsFreshDbModel.OrderTamplate">
               <MappingFragment StoreEntitySet="OrderTamplate">
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderTemplateDetials">
             <EntityTypeMapping TypeName="IcsFreshDbModel.OrderTemplateDetial">
               <MappingFragment StoreEntitySet="OrderTemplateDetial">
-                <ScalarProperty Name="TemplateCode" ColumnName="TemplateCode" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="TemplateCode" ColumnName="TemplateCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="IcsFreshDbModel.Product">
               <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Suppliers">
             <EntityTypeMapping TypeName="IcsFreshDbModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
-                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="IcsFreshDbModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoreTableMetaDatas">
+            <EntityTypeMapping TypeName="IcsFreshDbModel.CoreTableMetaData">
+              <MappingFragment StoreEntitySet="CoreTableMetaDatas">
+                <ScalarProperty Name="ValueUI" ColumnName="ValueUI" />
+                <ScalarProperty Name="IsUpdateDisabled" ColumnName="IsUpdateDisabled" />
+                <ScalarProperty Name="IsInsertDisabled" ColumnName="IsInsertDisabled" />
+                <ScalarProperty Name="IsVisibleInForm" ColumnName="IsVisibleInForm" />
+                <ScalarProperty Name="IsVisibleInSearchResult" ColumnName="IsVisibleInSearchResult" />
+                <ScalarProperty Name="IsSearchFilter" ColumnName="IsSearchFilter" />
+                <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
+                <ScalarProperty Name="PlaceHolder" ColumnName="PlaceHolder" />
+                <ScalarProperty Name="CoreDataSourceId" ColumnName="CoreDataSourceId" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="IsPrimaryKey" ColumnName="IsPrimaryKey" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoreLanguages">
+            <EntityTypeMapping TypeName="IcsFreshDbModel.CoreLanguage">
+              <MappingFragment StoreEntitySet="CoreLanguage">
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="CoreLanguageId" ColumnName="CoreLanguageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
