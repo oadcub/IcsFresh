@@ -215,10 +215,10 @@
     <Compile Include="Ef\OrderDetail.cs">
       <DependentUpon>IcsFreshDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="Ef\OrderTamplate.cs">
+    <Compile Include="Ef\OrderTemplate.cs">
       <DependentUpon>IcsFreshDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="Ef\OrderTemplateDetial.cs">
+    <Compile Include="Ef\OrderTemplateDetail.cs">
       <DependentUpon>IcsFreshDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Ef\Product.cs">
@@ -256,6 +256,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
+    <Content Include="Content\chosen.min.css" />
     <Content Include="Content\ng-table.css" />
     <Content Include="Content\ng-table.min.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
@@ -276,6 +280,8 @@
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
     <Content Include="Scripts\angular-aria.min.js" />
+    <Content Include="Scripts\angular-chosen.js" />
+    <Content Include="Scripts\angular-chosen.min.js" />
     <Content Include="Scripts\angular-material-mocks.js" />
     <Content Include="Scripts\angular-material.js" />
     <Content Include="Scripts\angular-material.min.js" />
@@ -326,6 +332,10 @@
     <Content Include="Content\ng-table.css.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.proto.js" />
+    <Content Include="Scripts\chosen.proto.min.js" />
     <Content Include="Scripts\global\PageHelper.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -334,6 +344,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\ng-table.min.js" />
+    <Content Include="Scripts\prototype.js" />
     <Content Include="Scripts_ngapp\MasterData.js" />
     <Content Include="Scripts_ngapp\product.js" />
     <Content Include="Scripts_ngapp\_directive\autocomplete\autocomplete-item.directive.html" />

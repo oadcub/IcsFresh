@@ -59,7 +59,7 @@ namespace IcsFresh.OpenApi.ApiControllers
                     if (x.Value != null && x.Value != "")
                     {
 
-                        sWhere += " and [" + x.Key + "] like " + "'%" + x.Value + "%'";
+                        sWhere += " and [" + x.Key + "] like " + "N'%" + x.Value + "%'";
                     }
                 }
             }

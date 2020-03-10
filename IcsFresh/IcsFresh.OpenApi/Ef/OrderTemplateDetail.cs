@@ -12,13 +12,13 @@ namespace IcsFresh.OpenApi.Ef
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderTemplateDetial
+    public partial class OrderTemplateDetail
     {
         public string TemplateCode { get; set; }
         public string ProductCode { get; set; }
         public string Seq { get; set; }
     
-        public virtual OrderTamplate OrderTamplate { get; set; }
+        public virtual OrderTemplate OrderTemplate { get; set; }
         public virtual Product Product { get; set; }
     }
 }

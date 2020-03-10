@@ -103,15 +103,16 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           <Property Name="Price" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Seq" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="OrderTamplate">
+        <EntityType Name="OrderTemplate">
           <Key>
             <PropertyRef Name="Code" />
           </Key>
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Seq" Type="int" />
         </EntityType>
-        <EntityType Name="OrderTemplateDetial">
+        <EntityType Name="OrderTemplateDetail">
           <Key>
             <PropertyRef Name="TemplateCode" />
             <PropertyRef Name="ProductCode" />
@@ -137,6 +138,7 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           </Key>
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Seq" Type="int" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -159,10 +161,10 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerOrderTemplate_OrderTamplate">
-          <End Role="OrderTamplate" Type="Self.OrderTamplate" Multiplicity="1" />
+          <End Role="OrderTemplate" Type="Self.OrderTemplate" Multiplicity="1" />
           <End Role="CustomerOrderTemplate" Type="Self.CustomerOrderTemplate" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrderTamplate">
+            <Principal Role="OrderTemplate">
               <PropertyRef Name="Code" />
             </Principal>
             <Dependent Role="CustomerOrderTemplate">
@@ -231,25 +233,25 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderTemplateDetial_OrderTamplate">
-          <End Role="OrderTamplate" Type="Self.OrderTamplate" Multiplicity="1" />
-          <End Role="OrderTemplateDetial" Type="Self.OrderTemplateDetial" Multiplicity="*" />
+          <End Role="OrderTemplate" Type="Self.OrderTemplate" Multiplicity="1" />
+          <End Role="OrderTemplateDetail" Type="Self.OrderTemplateDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrderTamplate">
+            <Principal Role="OrderTemplate">
               <PropertyRef Name="Code" />
             </Principal>
-            <Dependent Role="OrderTemplateDetial">
+            <Dependent Role="OrderTemplateDetail">
               <PropertyRef Name="TemplateCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderTemplateDetial_Product">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="OrderTemplateDetial" Type="Self.OrderTemplateDetial" Multiplicity="*" />
+          <End Role="OrderTemplateDetail" Type="Self.OrderTemplateDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="Code" />
             </Principal>
-            <Dependent Role="OrderTemplateDetial">
+            <Dependent Role="OrderTemplateDetail">
               <PropertyRef Name="ProductCode" />
             </Dependent>
           </ReferentialConstraint>
@@ -285,8 +287,8 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           <EntitySet Name="CustomerOrderTemplate" EntityType="Self.CustomerOrderTemplate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OrderTamplate" EntityType="Self.OrderTamplate" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OrderTemplateDetial" EntityType="Self.OrderTemplateDetial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderTemplate" EntityType="Self.OrderTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderTemplateDetail" EntityType="Self.OrderTemplateDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -315,7 +317,7 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
             <End Role="CustomerOrderTemplate" EntitySet="CustomerOrderTemplate" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerOrderTemplate_OrderTamplate" Association="Self.FK_CustomerOrderTemplate_OrderTamplate">
-            <End Role="OrderTamplate" EntitySet="OrderTamplate" />
+            <End Role="OrderTemplate" EntitySet="OrderTemplate" />
             <End Role="CustomerOrderTemplate" EntitySet="CustomerOrderTemplate" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_User_CreatedBy" Association="Self.FK_Order_User_CreatedBy">
@@ -339,12 +341,12 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderTemplateDetial_OrderTamplate" Association="Self.FK_OrderTemplateDetial_OrderTamplate">
-            <End Role="OrderTamplate" EntitySet="OrderTamplate" />
-            <End Role="OrderTemplateDetial" EntitySet="OrderTemplateDetial" />
+            <End Role="OrderTemplate" EntitySet="OrderTemplate" />
+            <End Role="OrderTemplateDetail" EntitySet="OrderTemplateDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderTemplateDetial_Product" Association="Self.FK_OrderTemplateDetial_Product">
             <End Role="Product" EntitySet="Product" />
-            <End Role="OrderTemplateDetial" EntitySet="OrderTemplateDetial" />
+            <End Role="OrderTemplateDetail" EntitySet="OrderTemplateDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
             <End Role="Category" EntitySet="Category" />
@@ -361,12 +363,13 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
       <Schema Namespace="IcsFreshDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="IcsFreshDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="IcsFreshDbModel.Category" />
+          <EntitySet Name="CoreLanguages" EntityType="IcsFreshDbModel.CoreLanguage" />
           <EntitySet Name="Customers" EntityType="IcsFreshDbModel.Customer" />
           <EntitySet Name="CustomerOrderTemplates" EntityType="IcsFreshDbModel.CustomerOrderTemplate" />
           <EntitySet Name="Orders" EntityType="IcsFreshDbModel.Order" />
           <EntitySet Name="OrderDetails" EntityType="IcsFreshDbModel.OrderDetail" />
-          <EntitySet Name="OrderTamplates" EntityType="IcsFreshDbModel.OrderTamplate" />
-          <EntitySet Name="OrderTemplateDetials" EntityType="IcsFreshDbModel.OrderTemplateDetial" />
+          <EntitySet Name="OrderTemplates" EntityType="IcsFreshDbModel.OrderTemplate" />
+          <EntitySet Name="OrderTemplateDetails" EntityType="IcsFreshDbModel.OrderTemplateDetail" />
           <EntitySet Name="Products" EntityType="IcsFreshDbModel.Product" />
           <EntitySet Name="Suppliers" EntityType="IcsFreshDbModel.Supplier" />
           <EntitySet Name="Users" EntityType="IcsFreshDbModel.User" />
@@ -380,7 +383,7 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
             <End Role="CustomerOrderTemplate" EntitySet="CustomerOrderTemplates" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerOrderTemplate_OrderTamplate" Association="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate">
-            <End Role="OrderTamplate" EntitySet="OrderTamplates" />
+            <End Role="OrderTemplate" EntitySet="OrderTemplates" />
             <End Role="CustomerOrderTemplate" EntitySet="CustomerOrderTemplates" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_User_CreatedBy" Association="IcsFreshDbModel.FK_Order_User_CreatedBy">
@@ -404,18 +407,17 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderTemplateDetial_OrderTamplate" Association="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate">
-            <End Role="OrderTamplate" EntitySet="OrderTamplates" />
-            <End Role="OrderTemplateDetial" EntitySet="OrderTemplateDetials" />
+            <End Role="OrderTemplate" EntitySet="OrderTemplates" />
+            <End Role="OrderTemplateDetail" EntitySet="OrderTemplateDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderTemplateDetial_Product" Association="IcsFreshDbModel.FK_OrderTemplateDetial_Product">
             <End Role="Product" EntitySet="Products" />
-            <End Role="OrderTemplateDetial" EntitySet="OrderTemplateDetials" />
+            <End Role="OrderTemplateDetail" EntitySet="OrderTemplateDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_Supplier" Association="IcsFreshDbModel.FK_Product_Supplier">
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
-          <EntitySet Name="CoreLanguages" EntityType="IcsFreshDbModel.CoreLanguage" />
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -425,6 +427,15 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Seq" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Products" Relationship="IcsFreshDbModel.FK_Product_Category" FromRole="Category" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="CoreLanguage">
+          <Key>
+            <PropertyRef Name="CoreLanguageId" />
+          </Key>
+          <Property Name="CoreLanguageId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Culture" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -451,7 +462,7 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           <Property Name="TemplateCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Seq" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_Customer" FromRole="CustomerOrderTemplate" ToRole="Customer" />
-          <NavigationProperty Name="OrderTamplate" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" FromRole="CustomerOrderTemplate" ToRole="OrderTamplate" />
+          <NavigationProperty Name="OrderTemplate" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" FromRole="CustomerOrderTemplate" ToRole="OrderTemplate" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -482,17 +493,18 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           <NavigationProperty Name="Order" Relationship="IcsFreshDbModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
           <NavigationProperty Name="Product" Relationship="IcsFreshDbModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
         </EntityType>
-        <EntityType Name="OrderTamplate">
+        <EntityType Name="OrderTemplate">
           <Key>
             <PropertyRef Name="Code" />
           </Key>
           <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CustomerOrderTemplates" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" FromRole="OrderTamplate" ToRole="CustomerOrderTemplate" />
-          <NavigationProperty Name="OrderTemplateDetials" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" FromRole="OrderTamplate" ToRole="OrderTemplateDetial" />
+          <Property Name="Seq" Type="Int32" />
+          <NavigationProperty Name="CustomerOrderTemplates" Relationship="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" FromRole="OrderTemplate" ToRole="CustomerOrderTemplate" />
+          <NavigationProperty Name="OrderTemplateDetails" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" FromRole="OrderTemplate" ToRole="OrderTemplateDetail" />
         </EntityType>
-        <EntityType Name="OrderTemplateDetial">
+        <EntityType Name="OrderTemplateDetail">
           <Key>
             <PropertyRef Name="TemplateCode" />
             <PropertyRef Name="ProductCode" />
@@ -500,8 +512,8 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           <Property Name="TemplateCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProductCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Seq" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderTamplate" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" FromRole="OrderTemplateDetial" ToRole="OrderTamplate" />
-          <NavigationProperty Name="Product" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_Product" FromRole="OrderTemplateDetial" ToRole="Product" />
+          <NavigationProperty Name="OrderTemplate" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" FromRole="OrderTemplateDetail" ToRole="OrderTemplate" />
+          <NavigationProperty Name="Product" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_Product" FromRole="OrderTemplateDetail" ToRole="Product" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -515,7 +527,7 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           <Property Name="Seq" Type="Int32" />
           <NavigationProperty Name="Category" Relationship="IcsFreshDbModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="OrderDetails" Relationship="IcsFreshDbModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
-          <NavigationProperty Name="OrderTemplateDetials" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_Product" FromRole="Product" ToRole="OrderTemplateDetial" />
+          <NavigationProperty Name="OrderTemplateDetails" Relationship="IcsFreshDbModel.FK_OrderTemplateDetial_Product" FromRole="Product" ToRole="OrderTemplateDetail" />
           <NavigationProperty Name="Supplier" Relationship="IcsFreshDbModel.FK_Product_Supplier" FromRole="Product" ToRole="Supplier" />
         </EntityType>
         <EntityType Name="Supplier">
@@ -524,6 +536,7 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           </Key>
           <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Seq" Type="Int32" />
           <NavigationProperty Name="Products" Relationship="IcsFreshDbModel.FK_Product_Supplier" FromRole="Supplier" ToRole="Product" />
         </EntityType>
         <EntityType Name="User">
@@ -594,10 +607,10 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerOrderTemplate_OrderTamplate">
-          <End Type="IcsFreshDbModel.OrderTamplate" Role="OrderTamplate" Multiplicity="1" />
+          <End Type="IcsFreshDbModel.OrderTemplate" Role="OrderTemplate" Multiplicity="1" />
           <End Type="IcsFreshDbModel.CustomerOrderTemplate" Role="CustomerOrderTemplate" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrderTamplate">
+            <Principal Role="OrderTemplate">
               <PropertyRef Name="Code" />
             </Principal>
             <Dependent Role="CustomerOrderTemplate">
@@ -666,25 +679,25 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderTemplateDetial_OrderTamplate">
-          <End Type="IcsFreshDbModel.OrderTamplate" Role="OrderTamplate" Multiplicity="1" />
-          <End Type="IcsFreshDbModel.OrderTemplateDetial" Role="OrderTemplateDetial" Multiplicity="*" />
+          <End Type="IcsFreshDbModel.OrderTemplate" Role="OrderTemplate" Multiplicity="1" />
+          <End Type="IcsFreshDbModel.OrderTemplateDetail" Role="OrderTemplateDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrderTamplate">
+            <Principal Role="OrderTemplate">
               <PropertyRef Name="Code" />
             </Principal>
-            <Dependent Role="OrderTemplateDetial">
+            <Dependent Role="OrderTemplateDetail">
               <PropertyRef Name="TemplateCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderTemplateDetial_Product">
           <End Type="IcsFreshDbModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="IcsFreshDbModel.OrderTemplateDetial" Role="OrderTemplateDetial" Multiplicity="*" />
+          <End Type="IcsFreshDbModel.OrderTemplateDetail" Role="OrderTemplateDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="Code" />
             </Principal>
-            <Dependent Role="OrderTemplateDetial">
+            <Dependent Role="OrderTemplateDetail">
               <PropertyRef Name="ProductCode" />
             </Dependent>
           </ReferentialConstraint>
@@ -701,15 +714,6 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CoreLanguage">
-          <Key>
-            <PropertyRef Name="CoreLanguageId" />
-          </Key>
-          <Property Name="CoreLanguageId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MenuId" Type="Int32" Nullable="false" />
-          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Culture" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -722,6 +726,16 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
                 <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoreLanguages">
+            <EntityTypeMapping TypeName="IcsFreshDbModel.CoreLanguage">
+              <MappingFragment StoreEntitySet="CoreLanguage">
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="CoreLanguageId" ColumnName="CoreLanguageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -776,18 +790,19 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OrderTamplates">
-            <EntityTypeMapping TypeName="IcsFreshDbModel.OrderTamplate">
-              <MappingFragment StoreEntitySet="OrderTamplate">
+          <EntitySetMapping Name="OrderTemplates">
+            <EntityTypeMapping TypeName="IcsFreshDbModel.OrderTemplate">
+              <MappingFragment StoreEntitySet="OrderTemplate">
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OrderTemplateDetials">
-            <EntityTypeMapping TypeName="IcsFreshDbModel.OrderTemplateDetial">
-              <MappingFragment StoreEntitySet="OrderTemplateDetial">
+          <EntitySetMapping Name="OrderTemplateDetails">
+            <EntityTypeMapping TypeName="IcsFreshDbModel.OrderTemplateDetail">
+              <MappingFragment StoreEntitySet="OrderTemplateDetail">
                 <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
                 <ScalarProperty Name="TemplateCode" ColumnName="TemplateCode" />
@@ -809,6 +824,7 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
           <EntitySetMapping Name="Suppliers">
             <EntityTypeMapping TypeName="IcsFreshDbModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
@@ -842,16 +858,6 @@ warning 6002: The table/view 'IcsFreshDb.dbo.CoreTableMetaDatas' does not have a
                 <ScalarProperty Name="IsPrimaryKey" ColumnName="IsPrimaryKey" />
                 <ScalarProperty Name="FieldName" ColumnName="FieldName" />
                 <ScalarProperty Name="TableName" ColumnName="TableName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CoreLanguages">
-            <EntityTypeMapping TypeName="IcsFreshDbModel.CoreLanguage">
-              <MappingFragment StoreEntitySet="CoreLanguage">
-                <ScalarProperty Name="Culture" ColumnName="Culture" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
-                <ScalarProperty Name="CoreLanguageId" ColumnName="CoreLanguageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

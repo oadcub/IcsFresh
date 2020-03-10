@@ -60,6 +60,9 @@ this.isEmpty = function (obj) {
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+    <link href="~/Content/chosen.min.css" rel="stylesheet" />
+    <link href="~/Content/chosen-sprite.png" rel="image_src" />
 
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angular-sanitize.min.js"></script>
@@ -70,7 +73,7 @@ this.isEmpty = function (obj) {
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
     <script src="~/Scripts/angular-material.min.js"></script>
     <script src="~/Scripts/ng-table.min.js"></script>
-
+    <script src="~/Scripts/angular-chosen.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

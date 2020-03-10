@@ -21,6 +21,6 @@ namespace IcsFresh.OpenApi.Ef
         public int Seq { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual OrderTamplate OrderTamplate { get; set; }
+        public virtual OrderTemplate OrderTemplate { get; set; }
     }
 }

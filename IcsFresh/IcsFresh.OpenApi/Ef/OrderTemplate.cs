@@ -12,22 +12,23 @@ namespace IcsFresh.OpenApi.Ef
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderTamplate
+    public partial class OrderTemplate
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public OrderTamplate()
+        public OrderTemplate()
         {
             this.CustomerOrderTemplates = new HashSet<CustomerOrderTemplate>();
-            this.OrderTemplateDetials = new HashSet<OrderTemplateDetial>();
+            this.OrderTemplateDetails = new HashSet<OrderTemplateDetail>();
         }
     
         public string Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Nullable<int> Seq { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerOrderTemplate> CustomerOrderTemplates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderTemplateDetial> OrderTemplateDetials { get; set; }
+        public virtual ICollection<OrderTemplateDetail> OrderTemplateDetails { get; set; }
     }
 }

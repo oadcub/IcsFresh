@@ -28,7 +28,8 @@
                         <div class="col-sm-6">
                             @if (field.Type == "select")
                             {
-                                <select ng-init="Option_@field.FieldName=@field.CoreDataSourceId" ng-model="searchFilter['@field.FieldName']" master-data="'List_@field.FieldName'" master-data-option="@field.CoreDataSourceId">
+                                <div master-data="'List_@field.FieldName'" master-data-option="@field.CoreDataSourceId"></div>
+                                <select chosen ng-init="Option_@field.FieldName=@field.CoreDataSourceId" ng-model="searchFilter['@field.FieldName']" >
                                     <option value="" class="hidden" res="---PLease Select---"></option>
                                     <option ng-repeat="item in masterData.List_@field.FieldName" value="{{item[Option_@(field.FieldName).List_Select[0]]}}">{{item[Option_@(field.FieldName).List_Select[0]]+'-'+item[Option_@(field.FieldName).List_Select[1]]}}</option>
                                 </select>
@@ -96,9 +97,10 @@
                         <div class="col-sm-6">
                             @if (field.Type == "select")
                             {
-                                <select ng-model="viewModel['@field.FieldName']"
-                                        ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsUpdateDisabled.ToString().ToLower()))"
-                                        master-data="'List_@field.TableName'" master-data-option="@field.CoreDataSourceId">
+
+                                <div master-data="'List_@field.FieldName'" master-data-option="@field.CoreDataSourceId"></div>
+                                <select chosen ng-model="viewModel['@field.FieldName']"
+                                        ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsUpdateDisabled.ToString().ToLower()))">
                                     <option value="" class="hidden" res="---PLease Select---"></option>
                                     <option ng-repeat="item in masterData.List_@field.FieldName" value="{{item[Option_@(field.FieldName).List_Select[0]]}}">{{item[Option_@(field.FieldName).List_Select[0]]+'-'+item[Option_@(field.FieldName).List_Select[1]]}}</option>
                                 </select>
@@ -173,7 +175,7 @@
     <link href="~/Content/ui-bootstrap-csp.css" rel="stylesheet" />
     <script src="~/Scripts/global/PageHelper.js"></script>
     <script>
-        var app = angular.module('myApp', ['ngTable', 'ui.bootstrap', 'ngSanitize']);
+        var app = angular.module('myApp', ['ngTable', 'ui.bootstrap', 'ngSanitize','angular.chosen']);
         
 app.directive('masterData', function (KdaHttp, $compile, $uibModal) {
     return {
