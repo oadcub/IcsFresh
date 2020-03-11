@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Make Order";
+}
+
+    <h2>Make Order</h2>
+    <div ng-app="myApp" ng-controller="makeOrderController">
+        <div master-data="'List_CustomerOrderTemplate'" master-data-option="{DataSourceId:'CustomerOrderTemplate',List_Select:['Id','Name','CustomerCode','TemplateCode'],OrderBy:'Seq'}"></div>
+        <select chosen ng-model="FilterSearch.CustomerOrderTemplateId">
+            <option value="" class="hidden" res="---PLease Select---"></option>
+            <option ng-repeat="item in masterData.List_CustomerOrderTemplate" value="{{item.Id}}">{{item.Name}}-{{item.TemplateCode}}</option>
+        </select>
+
+        <input ng-model="product.Code" placeholder="Code" />
+        <input ng-model="product.Name" placeholder="Name" />
+        <select ng-model="product.CategoryCode" ng-change="update(item,'CategoryCode')">
+            <option ng-repeat="c in categories" value="{{c.Code}}">{{c.Name}}</option>
+        </select>
+        <select ng-model="product.SupplierCode" ng-change="update(item,'SupplierCode')">
+            <option ng-repeat="s in suppliers" value="{{s.Code}}">{{s.Name}}</option>
+        </select>
+        <a class="btn btn-success" ng-click="insert()">Add</a><br />
+        <div ng-show="searchResult.length>0" class="row">
+            <div class="col-lg-12">
+                <table ng-table="searchResultTable" show-filter="true" class="table table-condensed table-striped">
+                    <tr ng-repeat="item in finalSearchResult | filter:queryResult ">
+                        <td>
+                            <a ng-click="delete(item)">delete</a>
+                        </td>
+                        <td data-title="'Code'"
+                            ng-class="getCss(item,'Code')"
+                            sortable="'Code'"
+                            filter="{Code: 'text'}">
+                            {{item.Code}}
+                        </td>
+                        <td data-title="'Name'"
+                            ng-class="getCss(item,'Name')"
+                            sortable="'Name'"
+                            filter="{Name: 'text'}">
+                            <input ng-model="item.Name"
+                                   ng-model-options='{ debounce: 3000 }'
+                                   ng-change="update(item,'Name')" />
+                        </td>
+                        <td data-title="'CategoryCode'"
+                            ng-class="getCss(item,'CategoryCode')"
+                            sortable="'CategoryCode'"
+                            filter="{CategoryCode: 'text'}">
+                            <select ng-model="item.CategoryCode" ng-change="update(item,'CategoryCode')">
+                                <option ng-repeat="c in categories" value="{{c.Code}}">{{c.Name}}</option>
+                            </select>
+                        </td>
+                        <td data-title="'SupplierCode'"
+                            ng-class="getCss(item,'SupplierCode')"
+                            sortable="'SupplierCode'"
+                            filter="{SupplierCode: 'text'}">
+                            <select ng-model="item.SupplierCode" ng-change="update(item,'SupplierCode')">
+                                <option ng-repeat="s in suppliers" value="{{s.Code}}">{{s.Name}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <p ng-show="searchResult.length === 0">
+            no result found
+        </p>
+
+    </div>
+
+@section scripts{
+    <script src="~/Scripts_ngapp/MakeOrder.js"></script>
+}

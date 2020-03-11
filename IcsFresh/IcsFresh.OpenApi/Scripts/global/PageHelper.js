@@ -224,6 +224,11 @@ function generateButton() {
                     icon = 'icon-save';
                     label = 'Save';
                     break;
+                case 'saveAndAdd':
+                    btnClass = 'primary';
+                    icon = 'icon-save';
+                    label = 'SaveAndAdd';
+                    break;
                 case 'cancel':
                     btnClass = 'danger';
                     icon = 'icon-remove';

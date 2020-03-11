@@ -6,85 +6,12 @@
 }
 <div ng-app="myApp" ng-controller="mainController">
 
-
     <div class="panel panel-body fit-content" ng-init="entityName='@ViewBag.Entity'">
         <label res="@ViewBag.Entity" class="pagetitle"></label>
         <div class="float-right">
             <a btn-type="add" ng-show="ViewMode==='LIST'" ng-click="fn_New()"></a>
             <a btn-type="save" ng-show="ViewMode==='NEW' || ViewMode==='EDIT'" ng-click="fn_Save()"></a>
             <a btn-type="cancel" ng-show="ViewMode==='NEW' || ViewMode==='EDIT'" ng-click="fn_Cancel()"></a>
-        </div>
-
-        <hr />
-        <div ng-show="ViewMode==='LIST'">
-
-            @{bool showSearchButton = true;}
-            @foreach (var field in Model)
-            {
-                if (field.IsSearchFilter)
-                {
-                    <div class="row">
-                        <label class="col-sm-2 form-label form-group" res="@field.Label"></label>
-                        <div class="col-sm-6">
-                            @if (field.Type == "select")
-                            {
-                                <div master-data="'List_@field.FieldName'" master-data-option="@field.CoreDataSourceId"></div>
-                                <select chosen ng-init="Option_@field.FieldName=@field.CoreDataSourceId" ng-model="searchFilter['@field.FieldName']" >
-                                    <option value="" class="hidden" res="---PLease Select---"></option>
-                                    <option ng-repeat="item in masterData.List_@field.FieldName" value="{{item[Option_@(field.FieldName).List_Select[0]]}}">{{item[Option_@(field.FieldName).List_Select[0]]+'-'+item[Option_@(field.FieldName).List_Select[1]]}}</option>
-                                </select>
-
-                            }
-                            else if (field.Type == "checkbox")
-                            {
-                                <input type="checkbox" ng-model="searchFilter['@field.FieldName']"
-                                       ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsInsertDisabled.ToString().ToLower()))" />
-                            }
-                            else
-                            {
-                                <input ng-model="searchFilter['@field.FieldName']"
-                                       type="text"
-                                       class="form-control">
-                            }
-                        </div>
-                        @if (showSearchButton)
-                        {
-                            <a btn-type="search" ng-click="fn_Search()"></a>
-                            showSearchButton = false;
-                        }
-                    </div>
-                }
-            }
-            <table ng-table="searchResultTable" class="simple-searchresult">
-                <tr ng-repeat="item in finalSearchResult">
-                    <td data-title="'#'" class="width-50 text-center">{{$index+1}}</td>
-                    <td data-title="'Edit'" class="width-50"><a btn-type="edit" ng-click="fn_Edit(item)"></a></td>
-                    <td data-title="'Del'" class="width-50">
-                        <a btn-type="remove" ng-click="dialogDelete(item)"></a>
-                    </td>
-                    @foreach (var field in Model)
-                    {
-                        if (field.IsVisibleInSearchResult)
-                        {
-                            <td class="text-@(field.Type=="text"?"left":"center")"
-                                data-title="'@field.Label'"
-                                sortable="'@field.FieldName'">
-                                @if (field.ValueUI == null)
-                                {
-                                    <span> {{ item.@field.FieldName}}</span>
-                                }
-                                else
-                                {
-                                    <span>  {{ @(field.ValueUI)[''+item.@field.FieldName] }}</span>
-                                }
-
-                            </td>
-                        }
-                    }
-
-                </tr>
-            </table>
-
         </div>
 
         <div ng-show="ViewMode!=='LIST'">
@@ -169,36 +96,83 @@
             }
         </div>
 
+        <hr />
+        <div ng-show="ViewMode==='LIST'">
+
+            @{bool showSearchButton = true;}
+            @foreach (var field in Model)
+            {
+                if (field.IsSearchFilter)
+                {
+                    <div class="row">
+                        <label class="col-sm-2 form-label form-group" res="@field.Label"></label>
+                        <div class="col-sm-6">
+                            @if (field.Type == "select")
+                            {
+                                <div master-data="'List_@field.FieldName'" master-data-option="@field.CoreDataSourceId"></div>
+                                <select chosen ng-init="Option_@field.FieldName=@field.CoreDataSourceId" ng-model="searchFilter['@field.FieldName']">
+                                    <option value="" class="hidden" res="---PLease Select---"></option>
+                                    <option ng-repeat="item in masterData.List_@field.FieldName" value="{{item[Option_@(field.FieldName).List_Select[0]]}}">{{item[Option_@(field.FieldName).List_Select[0]]+'-'+item[Option_@(field.FieldName).List_Select[1]]}}</option>
+                                </select>
+
+                            }
+                            else if (field.Type == "checkbox")
+                            {
+                                <input type="checkbox" ng-model="searchFilter['@field.FieldName']"
+                                       ng-disabled="(ViewMode=='NEW' && @(field.IsInsertDisabled.ToString().ToLower())) || (ViewMode=='EDIT' && @(field.IsInsertDisabled.ToString().ToLower()))" />
+                            }
+                            else
+                            {
+                                <input ng-model="searchFilter['@field.FieldName']"
+                                       type="text"
+                                       class="form-control">
+                            }
+                        </div>
+                        @if (showSearchButton)
+                        {
+                            <a btn-type="search" ng-click="fn_Search()"></a>
+                            showSearchButton = false;
+                        }
+                    </div>
+                }
+            }
+            <table ng-table="searchResultTable" class="simple-searchresult">
+                <tr ng-repeat="item in finalSearchResult">
+                    <td data-title="'#'" class="width-50 text-center">{{$index+1}}</td>
+                    <td data-title="'Edit'" class="width-50"><a btn-type="edit" ng-click="fn_Edit(item)"></a></td>
+                    <td data-title="'Del'" class="width-50">
+                        <a btn-type="remove" ng-click="dialogDelete(item)"></a>
+                    </td>
+                    @foreach (var field in Model)
+                    {
+                        if (field.IsVisibleInSearchResult)
+                        {
+                            <td class="text-@(field.Type=="text"?"left":"center")"
+                                data-title="'@field.Label'"
+                                sortable="'@field.FieldName'">
+                                @if (field.ValueUI == null)
+                                {
+                                    <span> {{ item.@field.FieldName}}</span>
+                                }
+                                else
+                                {
+                                    <span>  {{ @(field.ValueUI)[''+item.@field.FieldName] }}</span>
+                                }
+
+                            </td>
+                        }
+                    }
+
+                </tr>
+            </table>
+
+        </div>
+
+
     </div>
 </div>
 @section scripts {
-    <link href="~/Content/ui-bootstrap-csp.css" rel="stylesheet" />
-    <script src="~/Scripts/global/PageHelper.js"></script>
-    <script>
-        var app = angular.module('myApp', ['ngTable', 'ui.bootstrap', 'ngSanitize','angular.chosen']);
-        
-app.directive('masterData', function (KdaHttp, $compile, $uibModal) {
-    return {
-        replace: false,
-        restrict: 'A',
-        scope: {
-            masterData: '=?',
-            masterDataOption: '=?'
-        }
-        , link: function (scope, elm, attrs) {
-            KdaHttp.Post('masterdata', 'AutoComplete', scope.masterDataOption)
-                .then(function (response) {
-                    if (scope.$parent.masterData === undefined) {
-                        scope.$parent.masterData = {};
-                    }
-                    scope.$parent.masterData[scope.masterData] = response;
-                });
-        }
-    };
-});
-    </script>
-    <script src="~/Scripts_ngapp/_service/http-client.service.js"></script>
-    <script src="~/Scripts_ngapp/_factory/utility.factory.js"></script>
+    
     <script src="~/Scripts_ngapp/MasterData.js"></script>
 
 }

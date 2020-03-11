@@ -60,13 +60,13 @@ app.controller('mainController',
                 }
             );
         };
-        $scope.fn_Save = function () {
+        $scope.fn_Save = function (showResult) {
             if ($scope.ViewMode === 'NEW') {
                 json = JSON.stringify($scope.viewModel);
                 KdaHttp.Post(
                     $scope.mainApiController, 'Insert?id=' + $scope.entityName
                     , json, function (data) {
-                        $scope.fn_Search();
+                         $scope.fn_Search();
                     });
             } else if ($scope.ViewMode === 'EDIT') {
                 json = JSON.stringify($scope.viewModel);
@@ -74,7 +74,7 @@ app.controller('mainController',
                     $scope.mainApiController, 'Update?id=' + $scope.entityName
                     , json
                     , function (response) {
-                        $scope.fn_Search();
+                         $scope.fn_Search();
                     });
             }
 

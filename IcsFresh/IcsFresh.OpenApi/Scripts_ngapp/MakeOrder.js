@@ -1,4 +1,4 @@
-﻿    app.controller('productController', function ($scope, $http, NgTableParams, $q, $filter) {
+﻿app.controller('makeOrderController', function ($scope, $http, NgTableParams, $q, $filter) {
         // todo get base url from webconfig
         // todo get username from login
         $scope.product = {};

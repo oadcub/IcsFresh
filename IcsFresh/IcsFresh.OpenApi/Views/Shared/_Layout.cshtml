@@ -60,7 +60,7 @@ this.isEmpty = function (obj) {
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-<script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
     <link href="~/Content/chosen.min.css" rel="stylesheet" />
     <link href="~/Content/chosen-sprite.png" rel="image_src" />
 
@@ -74,6 +74,32 @@ this.isEmpty = function (obj) {
     <script src="~/Scripts/angular-material.min.js"></script>
     <script src="~/Scripts/ng-table.min.js"></script>
     <script src="~/Scripts/angular-chosen.min.js"></script>
+    <link href="~/Content/ui-bootstrap-csp.css" rel="stylesheet" />
+    <script src="~/Scripts/global/PageHelper.js"></script>
+    <script>
+        var app = angular.module('myApp', ['ngTable', 'ui.bootstrap', 'ngSanitize', 'angular.chosen', 'ngMaterial']);
+        app.directive('masterData', function (KdaHttp, $compile, $uibModal) {
+            return {
+                replace: false,
+                restrict: 'A',
+                scope: {
+                    masterData: '=?',
+                    masterDataOption: '=?'
+                }
+                , link: function (scope, elm, attrs) {
+                    KdaHttp.Post('masterdata', 'AutoComplete', scope.masterDataOption)
+                        .then(function (response) {
+                            if (scope.$parent.masterData === undefined) {
+                                scope.$parent.masterData = {};
+                            }
+                            scope.$parent.masterData[scope.masterData] = response;
+                        });
+                }
+            };
+        });
+    </script>
+    <script src="~/Scripts_ngapp/_service/http-client.service.js"></script>
+    <script src="~/Scripts_ngapp/_factory/utility.factory.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
