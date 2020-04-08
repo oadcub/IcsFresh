@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../widgets/app_drawer.dart';
 import '../widgets/products_grid.dart';
-import '../widgets/products_grid_with_input.dart';
 import '../widgets/badge.dart';
 import '../providers/cart.dart';
 import './cart_screen.dart';
@@ -100,7 +99,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : ProductsGridWithInput(_showOnlyFavorites), 
+          : ProductsGrid(_showOnlyFavorites), 
     );
   }
 }
