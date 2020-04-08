@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/products.dart';
-import './product_item.dart';
+import './product_item_with_input.dart';
 
 class ProductsGridWithInput extends StatelessWidget {
   final bool showFavs;
@@ -19,17 +19,17 @@ class ProductsGridWithInput extends StatelessWidget {
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
             // builder: (c) => products[i],
             value: products[i],
-            child: ProductItem(
+            child: ProductItemWithInput(
                 // products[i].id,
                 // products[i].title,
                 // products[i].imageUrl,
                 ),
-          ),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        childAspectRatio: 5 / 1,
+          ), 
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        childAspectRatio: 3 / 1,
         crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+        mainAxisSpacing: 10, 
+        maxCrossAxisExtent: 500,
       ),
     );
   }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ics_fresh/widgets/products_grid_with_input.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/app_drawer.dart';
-import '../widgets/products_grid.dart';
 import '../widgets/badge.dart';
 import '../providers/cart.dart';
 import './cart_screen.dart';
 import '../providers/products.dart';
+import '../widgets/products_grid_with_input.dart';
+import '../widgets/products_grid.dart';
 
 enum FilterOptions {
   Favorites,

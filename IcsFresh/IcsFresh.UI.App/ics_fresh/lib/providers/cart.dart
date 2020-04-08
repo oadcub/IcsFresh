@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 class CartItem {
   final String id;
   final String title;
-  final int quantity;
+  final double quantity;
   final double price;
 
   CartItem({
@@ -63,6 +65,40 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
+  void addItemQuantity(
+    String productId,
+    double price,
+    String title,
+    String quantity
+  ) {
+    if(quantity == ''){
+      removeItem(productId);
+      return;
+    }
+    if (_items.containsKey(productId)) {
+      // change quantity...
+      _items.update(
+        productId,
+        (existingCartItem) => CartItem(
+              id: existingCartItem.id,
+              title: existingCartItem.title,
+              price: existingCartItem.price,
+              quantity: double.parse(quantity) ,
+            ),
+      );
+    } else {
+      _items.putIfAbsent(
+        productId,
+        () => CartItem(
+              id: DateTime.now().toString(),
+              title: title,
+              price: price,
+              quantity: double.parse(quantity),
+            ),
+      );
+    }
+    notifyListeners();
+  }
   void removeItem(String productId) {
     _items.remove(productId);
     notifyListeners();
