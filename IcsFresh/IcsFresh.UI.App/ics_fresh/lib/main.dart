@@ -14,6 +14,7 @@ import './screens/user_products_screen.dart';
 import './screens/edit_product_screen.dart';
 import './screens/auth_screen.dart';
 import './helpers/custom_route.dart';
+import './screens/products_bulk_order_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
-              title: 'จ่ายตลาด',
+              title: 'BP FOODS',
               theme: ThemeData(
                 primarySwatch: Colors.purple,
                 accentColor: Colors.deepOrange,
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
                 ),
               ),
               home: auth.isAuth
-                  ? ProductsOverviewScreen()
+                  ? ProductsBulkOrderScreen()
                   : FutureBuilder(
                       future: auth.tryAutoLogin(),
                       builder: (ctx, authResultSnapshot) =>
@@ -68,6 +69,8 @@ class MyApp extends StatelessWidget {
                               : AuthScreen(),
                     ),
               routes: {
+                ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
+                ProductsBulkOrderScreen.routeName: (ctx) => ProductsBulkOrderScreen(),
                 ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
                 CartScreen.routeName: (ctx) => CartScreen(),
                 OrdersScreen.routeName: (ctx) => OrdersScreen(),

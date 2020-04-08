@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ics_fresh/widgets/products_grid_with_input.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/app_drawer.dart';
@@ -13,13 +14,14 @@ enum FilterOptions {
   All,
 }
 
-class ProductsOverviewScreen extends StatefulWidget {
-  static const routeName = '/product-overview';
+class ProductsBulkOrderScreen extends StatefulWidget {
+  static const routeName = '/product-bulk-order';
+
   @override
-  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
+  _ProductsBulkOrderScreenState createState() => _ProductsBulkOrderScreenState();
 }
 
-class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+class _ProductsBulkOrderScreenState extends State<ProductsBulkOrderScreen> {
   var _showOnlyFavorites = false;
   var _isInit = true;
   var _isLoading = false;
@@ -100,7 +102,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : ProductsGrid(_showOnlyFavorites), 
+          : ProductsGridWithInput(_showOnlyFavorites), 
     );
   }
 }
