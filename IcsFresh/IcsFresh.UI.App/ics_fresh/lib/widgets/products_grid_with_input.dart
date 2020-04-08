@@ -13,23 +13,17 @@ class ProductsGridWithInput extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
     final products = showFavs ? productsData.favoriteItems : productsData.items;
-    return GridView.builder(
+    return ListView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-            // builder: (c) => products[i],
-            value: products[i],
-            child: ProductItemWithInput(
-                // products[i].id,
-                // products[i].title,
-                // products[i].imageUrl,
-                ),
-          ), 
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        childAspectRatio: 3 / 1,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10, 
-        maxCrossAxisExtent: 500,
+        // builder: (c) => products[i],
+        value: products[i],
+        child: ProductItemWithInput(
+            // products[i].id,
+            // products[i].title,
+            // products[i].imageUrl,
+            ),
       ),
     );
   }

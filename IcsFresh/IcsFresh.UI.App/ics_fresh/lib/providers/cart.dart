@@ -35,6 +35,15 @@ class Cart with ChangeNotifier {
     return total;
   }
 
+  double getQuanlityByProductId(String id) {
+    final item = _items[id];
+    if (item == null) {
+      return 0.00;
+    } else {
+      return item.quantity;
+    }
+  }
+
   void addItem(
     String productId,
     double price,
@@ -45,33 +54,29 @@ class Cart with ChangeNotifier {
       _items.update(
         productId,
         (existingCartItem) => CartItem(
-              id: existingCartItem.id,
-              title: existingCartItem.title,
-              price: existingCartItem.price,
-              quantity: existingCartItem.quantity + 1,
-            ),
+          id: existingCartItem.id,
+          title: existingCartItem.title,
+          price: existingCartItem.price,
+          quantity: existingCartItem.quantity + 1,
+        ),
       );
     } else {
       _items.putIfAbsent(
         productId,
         () => CartItem(
-              id: DateTime.now().toString(),
-              title: title,
-              price: price,
-              quantity: 1,
-            ),
+          id: DateTime.now().toString(),
+          title: title,
+          price: price,
+          quantity: 1,
+        ),
       );
     }
     notifyListeners();
   }
 
   void addItemQuantity(
-    String productId,
-    double price,
-    String title,
-    String quantity
-  ) {
-    if(quantity == ''){
+      String productId, double price, String title, String quantity) {
+    if (quantity == '' || quantity == 0) {
       removeItem(productId);
       return;
     }
@@ -80,25 +85,26 @@ class Cart with ChangeNotifier {
       _items.update(
         productId,
         (existingCartItem) => CartItem(
-              id: existingCartItem.id,
-              title: existingCartItem.title,
-              price: existingCartItem.price,
-              quantity: double.parse(quantity) ,
-            ),
+          id: existingCartItem.id,
+          title: existingCartItem.title,
+          price: existingCartItem.price,
+          quantity: double.parse(quantity),
+        ),
       );
     } else {
       _items.putIfAbsent(
         productId,
         () => CartItem(
-              id: DateTime.now().toString(),
-              title: title,
-              price: price,
-              quantity: double.parse(quantity),
-            ),
+          id: DateTime.now().toString(),
+          title: title,
+          price: price,
+          quantity: double.parse(quantity),
+        ),
       );
     }
     notifyListeners();
   }
+
   void removeItem(String productId) {
     _items.remove(productId);
     notifyListeners();
