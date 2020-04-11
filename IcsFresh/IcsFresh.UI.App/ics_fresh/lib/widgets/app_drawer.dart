@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ics_fresh/screens/cart_screen.dart';
+import 'package:ics_fresh/screens/order_print_screen.dart';
 import 'package:ics_fresh/screens/products_bulk_order_screen.dart';
 import 'package:ics_fresh/screens/products_overview_screen.dart';
 import 'package:ics_fresh/widgets/products_grid_with_input.dart';
@@ -56,6 +57,15 @@ class AppDrawer extends StatelessWidget {
               //     builder: (ctx) => OrdersScreen(),
               //   ),
               // );
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.payment),
+            title: Text('Print Orders'),
+            onTap: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(OrderPrintScreen.routeName);
             },
           ),
           Divider(),

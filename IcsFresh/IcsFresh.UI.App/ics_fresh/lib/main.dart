@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ics_fresh/screens/order_print_screen.dart';
 import 'package:provider/provider.dart';
 
 import './screens/splash_screen.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
             OrdersScreen.routeName: (ctx) => OrdersScreen(),
             UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
             EditProductScreen.routeName: (ctx) => EditProductScreen(),
+            OrderPrintScreen.routeName: (ctx) => OrderPrintScreen(),
           },
         ),
       ),
