@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:intl/date_time_patterns.dart';
 
 class CartItem {
   final String id;
@@ -21,6 +22,14 @@ class Cart with ChangeNotifier {
 
   Map<String, CartItem> get items {
     return {..._items};
+  }
+  DateTime _deliveryDate = DateTime.now();
+  DateTime get deliveryDate {
+    return _deliveryDate;
+  }
+  void setDeliveryDate(DateTime d){
+    _deliveryDate = d;
+    notifyListeners();
   }
 
   int get itemCount {
@@ -76,10 +85,14 @@ class Cart with ChangeNotifier {
 
   void addItemQuantity(
       String productId, double price, String title, String quantity) {
-    if (quantity == '' || quantity == 0) {
+    if (quantity == '' || quantity == '0') {
+      return;
+    }
+    if (quantity == '0') {
       removeItem(productId);
       return;
     }
+
     if (_items.containsKey(productId)) {
       // change quantity...
       _items.update(

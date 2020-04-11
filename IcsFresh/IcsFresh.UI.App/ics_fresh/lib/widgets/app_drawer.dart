@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ics_fresh/screens/cart_screen.dart';
 import 'package:ics_fresh/screens/products_bulk_order_screen.dart';
 import 'package:ics_fresh/screens/products_overview_screen.dart';
 import 'package:ics_fresh/widgets/products_grid_with_input.dart';
@@ -33,6 +34,14 @@ class AppDrawer extends StatelessWidget {
             title: Text('Basket'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.shopping_cart),
+            title: Text('Cart'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed(CartScreen.routeName);
             },
           ),
           Divider(),
