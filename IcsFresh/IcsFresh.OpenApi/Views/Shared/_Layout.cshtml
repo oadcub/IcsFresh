@@ -8,8 +8,23 @@
     <link href="~/Content/ng-table.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <style>
+        li.dropdown-submenu:hover ul {
+            display: block;
+            left: 100%;
+        }
+
+        .dropdown-submenu {
+            position: relative;
+        }
+
+            .dropdown-submenu:hover .dropdown-menu {
+                top: 0;
+            }
+    </style>
 </head>
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -24,6 +39,8 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Products", "Products", "ProductPage", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    <li>@{ Html.RenderAction("MasterDataMenu", "Admin"); }</li>
+
                 </ul>
             </div>
         </div>
@@ -63,6 +80,13 @@ this.isEmpty = function (obj) {
     <script src="~/Scripts/chosen.jquery.min.js"></script>
     <link href="~/Content/chosen.min.css" rel="stylesheet" />
     <link href="~/Content/chosen-sprite.png" rel="image_src" />
+
+    <script>
+        $(".dropdown-menu li a").click(function () {
+            var selText = $(this).text();
+            $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+        });
+    </script>
 
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angular-sanitize.min.js"></script>

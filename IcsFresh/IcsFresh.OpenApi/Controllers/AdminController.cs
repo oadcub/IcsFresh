@@ -16,5 +16,13 @@ namespace IcsFresh.OpenApi.Controllers
             var model = db.CoreTableMetaDatas.Where(x => x.TableName == id).OrderBy(x => x.Sequence);
             return View(model);
         }
+
+        [ChildActionOnly]
+        public ActionResult MasterDataMenu()
+        {
+            //Get the menuItems collection from somewhere
+            IOrderedQueryable<string> model = db.CoreTableMetaDatas.Select(x => x.TableName).Distinct().OrderBy(x => x);
+            return View(model);
+        }
     }
 }
