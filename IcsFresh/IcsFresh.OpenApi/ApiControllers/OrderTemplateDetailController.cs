@@ -103,10 +103,11 @@ namespace IcsFresh.OpenApi.ApiControllers
         public async Task<IHttpActionResult> Delete(string id)
         {
             var arrId = id.Split('|');
-
+            var productCode = arrId[0];
+            var templateCode = arrId[1];
             try
             {
-                var row = db.OrderTemplateDetails.FirstOrDefault(x => x.ProductCode == arrId[0] && x.TemplateCode == arrId[1]);
+                var row = db.OrderTemplateDetails.FirstOrDefault(x => x.ProductCode == productCode && x.TemplateCode == templateCode);
                 db.OrderTemplateDetails.Remove(row);
                 await db.SaveChangesAsync();
                 return Json(result);
