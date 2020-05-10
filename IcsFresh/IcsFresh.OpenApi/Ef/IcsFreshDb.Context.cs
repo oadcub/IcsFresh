@@ -30,12 +30,12 @@ namespace IcsFresh.OpenApi.Ef
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerOrderTemplate> CustomerOrderTemplates { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderTemplate> OrderTemplates { get; set; }
-        public virtual DbSet<OrderTemplateDetail> OrderTemplateDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<CoreTableMetaData> CoreTableMetaDatas { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<OrderTemplateDetail> OrderTemplateDetails { get; set; }
     }
 }

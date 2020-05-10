@@ -16,7 +16,7 @@ namespace IcsFresh.OpenApi.Ef
     {
         public string TemplateCode { get; set; }
         public string ProductCode { get; set; }
-        public string Seq { get; set; }
+        public Nullable<int> Seq { get; set; }
     
         public virtual OrderTemplate OrderTemplate { get; set; }
         public virtual Product Product { get; set; }
