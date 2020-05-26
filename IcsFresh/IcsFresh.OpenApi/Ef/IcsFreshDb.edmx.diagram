@@ -10,24 +10,24 @@
         <EntityTypeShape EntityType="IcsFreshDbModel.Customer" Width="1.5" PointX="3" PointY="16.5" />
         <EntityTypeShape EntityType="IcsFreshDbModel.CustomerOrderTemplate" Width="1.5" PointX="5.25" PointY="12.75" />
         <EntityTypeShape EntityType="IcsFreshDbModel.Order" Width="1.5" PointX="3" PointY="8" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.OrderDetail" Width="1.5" PointX="5.25" PointY="0.75" />
         <EntityTypeShape EntityType="IcsFreshDbModel.OrderTemplate" Width="1.5" PointX="3" PointY="12.875" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.OrderTemplateDetail" Width="1.5" PointX="5.25" PointY="4" />
         <EntityTypeShape EntityType="IcsFreshDbModel.Product" Width="1.5" PointX="3" PointY="3.5" />
         <EntityTypeShape EntityType="IcsFreshDbModel.Supplier" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="IcsFreshDbModel.User" Width="1.5" PointX="0.75" PointY="8.625" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.CoreTableMetaData" Width="1.5" PointX="7.75" PointY="2" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.CoreTableMetaData" Width="1.5" PointX="11.125" PointY="1" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Product_Category" />
         <AssociationConnector Association="IcsFreshDbModel.FK_CustomerOrderTemplate_Customer" />
         <AssociationConnector Association="IcsFreshDbModel.FK_CustomerOrderTemplate_OrderTamplate" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_CreatedBy" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_LastUpdateBy" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_SaleId" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_Product_Supplier" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderDetail" Width="1.5" PointX="5.25" PointY="3" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderTemplateDetail" Width="1.5" PointX="8.25" PointY="8.25" />
         <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Order" />
         <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Product" />
         <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" />
         <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_Product" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_Product_Supplier" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -29,6 +29,7 @@ namespace IcsFresh.OpenApi.Ef
         public string PostCode { get; set; }
         public string PhoneNo { get; set; }
         public string ContactName { get; set; }
+        public Nullable<int> Seq { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerOrderTemplate> CustomerOrderTemplates { get; set; }

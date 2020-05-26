@@ -137,6 +137,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\OrderTemplateDetailController.cs" />
     <Compile Include="ApiControllers\MasterDataController.cs" />
     <Compile Include="ApiControllers\LanguageController.cs" />
     <Compile Include="ApiControllers\SuppliersController.cs" />
@@ -333,6 +334,7 @@
     <Content Include="Content\ng-table.min.css.map" />
     <Content Include="Content\ng-table.css.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <None Include="Properties\PublishProfiles\IcsFreshOpenApi - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
