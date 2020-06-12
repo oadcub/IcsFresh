@@ -70,7 +70,15 @@
                     alert(response.data.Message);
                     console.log(response);
                 });
-        };
+    };
+
+    $scope.addProductToTemplate = function(item)
+    {
+        let t = {};
+        t.TemplateCode = $scope.FilterSearch.CustomerOrderTemplateCode;
+        t.ProductCode = item.Code;
+        $scope.masterData.List_OrderTemplateDetail.push(t);
+    }
 
         $scope.insert = function () {
             $http.post(JSHELPER.getWepApiUrl('Products', 'Insert'), JSON.stringify($scope.product)).then(
