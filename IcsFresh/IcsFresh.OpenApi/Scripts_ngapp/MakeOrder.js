@@ -7,6 +7,8 @@
         $scope.FilterSearch.EtdFrom = new Date();
         $scope.FilterSearch.EtdFrom.setMonth(new Date().getMonth() - 3);
 
+   
+
         $http.get(JSHELPER.getWepApiUrl('Categories', 'Fetch')).then(
             function successCallback(response) {
                 if (response.data.ErrorView.IsError) {
