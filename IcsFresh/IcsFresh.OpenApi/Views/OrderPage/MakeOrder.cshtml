@@ -2,9 +2,12 @@
     ViewBag.Title = "Make Order";
 }
 
-    <h2>Make Order</h2>
+<h2>Make Order</h2>
 <div ng-app="myApp" ng-controller="makeOrderController">
+
+    <input ng-model="deliveryDate" class="datepicker" />
     <div master-data="'List_OrderTemplateDetail'" master-data-option="{DataSourceId:'OrderTemplateDetail',List_Select:['TemplateCode','ProductCode','Seq'],OrderBy:'Seq'}"></div>
+
 
     <div master-data="'List_CustomerOrderTemplate'" master-data-option="{DataSourceId:'CustomerOrderTemplate',List_Select:['Id','Name','CustomerCode','TemplateCode'],OrderBy:'Seq'}"></div>
     <select chosen ng-model="FilterSearch.CustomerOrderTemplateCode">
@@ -14,27 +17,27 @@
     <div>
         <ul>
             <li ng-repeat="item in masterData.List_OrderTemplateDetail | filter:{'TemplateCode':FilterSearch.CustomerOrderTemplateCode}">
-                {{item.Seq}},{{item.ProductCode}},<input ng-model="item.Quantity"/>
+                {{item.Seq}},{{item.ProductCode}},<input ng-model="item.Quantity" />
                 <a ng-click="item.Quantity = ''" class="btn btn-danger">clear</a>
                 <a ng-click="item.Quantity = item.Quantity+0.1" class="btn btn-primary">.1</a>
                 <a ng-click="item.Quantity = item.Quantity+1.0" class="btn btn-primary">1</a>
             </li>
         </ul>
     </div>
-    
-    
-    
-    
 
-    <input ng-model="product.Code" placeholder="Code"/>
-    <input ng-model="product.Name" placeholder="Name"/>
+
+
+
+
+    <input ng-model="product.Code" placeholder="Code" />
+    <input ng-model="product.Name" placeholder="Name" />
     <select ng-model="product.CategoryCode">
         <option ng-repeat="c in categories" value="{{c.Code}}">{{c.Name}}</option>
     </select>
     <select ng-model="product.SupplierCode">
         <option ng-repeat="s in suppliers" value="{{s.Code}}">{{s.Name}}</option>
     </select>
-    <a class="btn btn-success" ng-click="insert()">Add</a><br/>
+    <a class="btn btn-success" ng-click="insert()">Add</a><br />
     <div ng-show="searchResult.length>0" class="row">
         <div class="col-lg-12">
             <table ng-table="searchResultTable" show-filter="true" class="table table-condensed table-striped">
@@ -54,7 +57,7 @@
                         filter="{Name: 'text'}">
                         <input ng-model="item.Name"
                                ng-model-options='{ debounce: 3000 }'
-                               ng-change="update(item,'Name')"/>
+                               ng-change="update(item,'Name')" />
                     </td>
                     <td data-title="'CategoryCode'"
                         ng-class="getCss(item,'CategoryCode')"
@@ -84,4 +87,21 @@
 
 @section scripts{
     <script src="~/Scripts_ngapp/MakeOrder.js"></script>
+    <script>
+        $('.datepicker').datepicker({
+            language: 'en',
+            isRTL: false,
+            format: 'dd/mm/yyyy',
+            autoclose: true
+
+        }).on('changeDate', function (selected) {
+            var inputs = $(this).closest('form').find(':input:visible');
+            var nextele = inputs.eq(inputs.index(this) + 1);
+            if (nextele.hasClass('datepicker') && nextele.hasClass('enddate')) {
+                var minDate = new Date(selected.date.valueOf());
+                $(nextele).datepicker('setStartDate', minDate);
+                $(nextele).val('');
+            }
+        });
+    </script>
 }
