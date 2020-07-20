@@ -51,7 +51,17 @@ namespace IcsFresh.OpenApi.ApiControllers
         {
             try
             {
+                ensureSeq(ref viewModel);
+
                 db.OrderTemplateDetails.Add(viewModel);
+
+                var runningOrder = db.OrderTemplateDetails.Where(x => x.Seq >= viewModel.Seq && x.TemplateCode == viewModel.TemplateCode && x.ProductCode != viewModel.ProductCode).OrderBy(x => x.Seq).ToList();
+                var continueSeq = viewModel.Seq;
+                foreach (var r in runningOrder)
+                {
+                    continueSeq++;
+                    r.Seq = continueSeq;
+                }
                 await db.SaveChangesAsync();
                 return Json(result);
             }
@@ -66,6 +76,22 @@ namespace IcsFresh.OpenApi.ApiControllers
             return Json(result);
         }
 
+        private void ensureSeq(ref OrderTemplateDetail viewModel)
+        {
+            if (viewModel.Seq == null || viewModel.Seq == 0)
+            {
+                var latest = db.OrderTemplateDetails.OrderByDescending(x => x.Seq).FirstOrDefault();
+                if (latest != null && latest.Seq.HasValue)
+                {
+                    viewModel.Seq = latest.Seq.Value;
+                }
+                else
+                {
+                    viewModel.Seq = 1;
+                }
+            }
+        }
+
         [HttpPost]
         [Route("Update")]
         [ResponseType(typeof(JsonResultWrapper))]
@@ -73,10 +99,20 @@ namespace IcsFresh.OpenApi.ApiControllers
         {
             try
             {
-                var row = db.OrderTemplateDetails.FirstOrDefault(x => x.TemplateCode == viewModel.ProductCode);
+                ensureSeq(ref viewModel);
+                var row = db.OrderTemplateDetails.FirstOrDefault(x => x.TemplateCode == viewModel.TemplateCode && x.ProductCode == viewModel.ProductCode);
                 //update
                 row.ProductCode = viewModel.ProductCode;
                 row.TemplateCode = viewModel.TemplateCode;
+
+                var runningOrder = db.OrderTemplateDetails.Where(x => x.Seq >= viewModel.Seq && x.TemplateCode == viewModel.TemplateCode && x.ProductCode != viewModel.ProductCode).OrderBy(x=>x.Seq).ToList();
+                var continueSeq = viewModel.Seq;
+                foreach (var r in runningOrder)
+                {
+                    continueSeq++;
+                    r.Seq = continueSeq;
+                }
+
                 await db.SaveChangesAsync();
                 return Json(result);
             }
