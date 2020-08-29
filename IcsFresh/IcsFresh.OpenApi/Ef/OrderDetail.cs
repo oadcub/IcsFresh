@@ -17,7 +17,7 @@ namespace IcsFresh.OpenApi.Ef
         public System.Guid Id { get; set; }
         public System.Guid OrderId { get; set; }
         public string ProductCode { get; set; }
-        public string Unit { get; set; }
+        public string Quantity { get; set; }
         public string UnitMeter { get; set; }
         public Nullable<decimal> UnitPrice { get; set; }
         public int Seq { get; set; }

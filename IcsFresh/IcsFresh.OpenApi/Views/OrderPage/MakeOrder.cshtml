@@ -1,114 +1,99 @@
 ﻿@{
     ViewBag.Title = "Make Order";
 }
+    <div ng-app="myApp" ng-controller="makeOrderController">
+        <div>
+            <h2>Make Order</h2>
 
-<h2>Make Order</h2>
-<div ng-app="myApp" ng-controller="makeOrderController">
+            <input ng-model="FilterSearch.DeliveryDate" kda-datepicker ng-change="FilterSearch.CustomerOrderTemplateCode = undefined" />
+            <div master-data="'List_OrderTemplateDetail'" master-data-option="{DataSourceId:'OrderTemplateDetail',List_Select:['TemplateCode','ProductCode','UnitMeter','Seq'],OrderBy:'Seq'}"></div>
+            <div master-data="'List_UnitMeter'" master-data-option="{DataSourceId:'UnitMeter',List_Select:['Code','Name'],OrderBy:'Name'}"></div>
 
-    <input ng-model="deliveryDate" class="datepicker" />
-    <div master-data="'List_OrderTemplateDetail'" master-data-option="{DataSourceId:'OrderTemplateDetail',List_Select:['TemplateCode','ProductCode','UnitMeter','Seq'],OrderBy:'Seq'}"></div>
-    <div master-data="'List_UnitMeter'" master-data-option="{DataSourceId:'UnitMeter',List_Select:['Code','Name'],OrderBy:'Name'}"></div>
+            <div master-data="'List_CustomerOrderTemplate'" master-data-option="{DataSourceId:'CustomerOrderTemplate',List_Select:['Id','Name','CustomerCode','TemplateCode'],OrderBy:'Seq'}"></div>
+            <select chosen ng-model="FilterSearch.CustomerOrderTemplateCode"
+                    ng-change="searchOrder()">
+                <option value="" class="hidden" res="---PLease Select---"></option>
+                <option ng-repeat="item in masterData.List_CustomerOrderTemplate" value="{{item.TemplateCode}}">{{item.Name}}-{{item.TemplateCode}}</option>
+            </select>
+            <div ng-if="FilterSearch.CustomerOrderTemplateCode && !showPrintView">
+                <table ng-if="FilterSearch.CustomerOrderTemplateCode" class="table table-responsive table-bordered table-striped">
+                    <tr ng-repeat="item in masterData.List_OrderTemplateDetail | filter:{'TemplateCode':FilterSearch.CustomerOrderTemplateCode}">
+                        <td>{{$index + 1}}</td>
+                        <td>
+                            {{item.ProductCode}}
+                        </td>
+                        <td>
+                            <input ng-model="item.Quantity"
+                                   ng-click="$event.target.select()"
+                                   type="number" step="0.01" placeholder="Qty"
+                                   style="width:60px" class="text-right" />
+                            <a ng-click="item.showUnitMeter=!item.showUnitMeter">{{item.UnitMeter}}</a>
+                            <div ng-show="item.showUnitMeter">
+                                <select ng-model="item.UnitMeter" ng-change="item.showUnitMeter=false">
+                                    <option ng-repeat="u in masterData.List_UnitMeter" value="{{u.Code}}">{{u.Code}}-{{u.Name}}</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <a ng-click="item.Quantity = ''" class="btn btn-danger">X</a>
+                            <a ng-click="item.Quantity = (item.Quantity+0.10)*100/100" class="btn btn-primary">+</a>
+                            <a ng-click="item.Quantity = (item.Quantity+1.00)*100/100" class="btn btn-primary"><b>+</b></a>
+                        </td>
+                    </tr>
+                </table>
+                <a class="btn btn-info" ng-click="saveOrder()">Save</a>
+            </div>
 
 
-    <div master-data="'List_CustomerOrderTemplate'" master-data-option="{DataSourceId:'CustomerOrderTemplate',List_Select:['Id','Name','CustomerCode','TemplateCode'],OrderBy:'Seq'}"></div>
-    <select chosen ng-model="FilterSearch.CustomerOrderTemplateCode">
-        <option value="" class="hidden" res="---PLease Select---"></option>
-        <option ng-repeat="item in masterData.List_CustomerOrderTemplate" value="{{item.TemplateCode}}">{{item.Name}}-{{item.TemplateCode}}</option>
-    </select>
-    <div>
-        <table class="table table-responsive table-bordered table-striped">
-            <tr ng-repeat="item in masterData.List_OrderTemplateDetail | filter:{'TemplateCode':FilterSearch.CustomerOrderTemplateCode}">
-                <td>{{item.Seq}}</td>
-                <td>
-                    {{item.ProductCode}}
-                </td>
-                <td>
-                    <input ng-model="item.Quantity"
-                           ng-click="$event.target.select()"
-                           type="number" step="0.01" placeholder="Qty"
-                           style="width:60px"  class="text-right"/>
-                    <a ng-click="item.showUnitMeter=!item.showUnitMeter">{{item.UnitMeter}}</a>
-                    <div ng-show="item.showUnitMeter">
-                        <select ng-model="item.UnitMeter" ng-change="item.showUnitMeter=false">
-                            <option ng-repeat="u in masterData.List_UnitMeter" value="{{u.Code}}">{{u.Code}}-{{u.Name}}</option>
-                        </select>
+            <hr />
+            <input type="checkbox" ng-model="searchProductSection" /> All product
+            <div ng-if="searchProductSection">
+                <div ng-show="searchResult.length>0" class="row">
+                    <div class="col-lg-12">
+                        <table ng-table="searchResultTable" show-filter="true" class="table table-condensed table-striped">
+                            <tr ng-repeat="item in finalSearchResult | filter:queryResult ">
+                                <td>
+                                    <a ng-click="addProductToTemplate(item)">Add</a>
+                                </td>
+                                <td data-title="'Code'"
+                                    ng-class="getCss(item,'Code')"
+                                    sortable="'Code'"
+                                    filter="{Code: 'text'}">
+                                    {{item.Code}}
+                                </td>
+                                <td data-title="'CategoryCode'"
+                                    ng-class="getCss(item,'CategoryCode')"
+                                    sortable="'CategoryCode'"
+                                    filter="{CategoryCode: 'text'}">
+                                    {{item.CategoryCode}}
+                                </td>
+                                <td data-title="'SupplierCode'"
+                                    ng-class="getCss(item,'SupplierCode')"
+                                    sortable="'SupplierCode'"
+                                    filter="{SupplierCode: 'text'}">
+                                    {{item.SupplierCode}}
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                </td>
-                <td class="text-right">
-                    <a ng-click="item.Quantity = ''" class="btn btn-danger">X</a>
-                    <a ng-click="item.Quantity = (item.Quantity+0.10)*100/100" class="btn btn-primary">+</a>
-                    <a ng-click="item.Quantity = (item.Quantity+1.00)*100/100" class="btn btn-primary"><b>+</b></a>
-                </td>
-            </tr>
-        </table>
-    </div>
+                </div>
+                <p ng-show="searchResult.length === 0">
+                    no result found
+                </p>
 
-
-
-
-    <hr />
-    <div ng-show="searchResult.length>0" class="row">
-        <div class="col-lg-12">
-            <table ng-table="searchResultTable" show-filter="true" class="table table-condensed table-striped">
-                <tr ng-repeat="item in finalSearchResult | filter:queryResult ">
-                    <td>
-                        <a ng-click="addProductToTemplate(item)">Add</a>
-                    </td>
-                    <td data-title="'Code'"
-                        ng-class="getCss(item,'Code')"
-                        sortable="'Code'"
-                        filter="{Code: 'text'}">
-                        {{item.Code}}
-                    </td>
-                    <td data-title="'CategoryCode'"
-                        ng-class="getCss(item,'CategoryCode')"
-                        sortable="'CategoryCode'"
-                        filter="{CategoryCode: 'text'}">
-                        {{item.CategoryCode}}
-                    </td>
-                    <td data-title="'SupplierCode'"
-                        ng-class="getCss(item,'SupplierCode')"
-                        sortable="'SupplierCode'"
-                        filter="{SupplierCode: 'text'}">
-                        {{item.SupplierCode}}
-                    </td>
-                </tr>
-            </table>
+                <input ng-model="product.Code" placeholder="Code" />
+                <input ng-model="product.Name" placeholder="Name" />
+                <select ng-model="product.CategoryCode">
+                    <option ng-repeat="c in categories" value="{{c.Code}}">{{c.Name}}</option>
+                </select>
+                <select ng-model="product.SupplierCode">
+                    <option ng-repeat="s in suppliers" value="{{s.Code}}">{{s.Name}}</option>
+                </select>
+                <a class="btn btn-success" ng-click="insert()">Add Product</a>
+            </div>
         </div>
     </div>
-    <p ng-show="searchResult.length === 0">
-        no result found
-    </p>
 
-    <input ng-model="product.Code" placeholder="Code" />
-    <input ng-model="product.Name" placeholder="Name" />
-    <select ng-model="product.CategoryCode">
-        <option ng-repeat="c in categories" value="{{c.Code}}">{{c.Name}}</option>
-    </select>
-    <select ng-model="product.SupplierCode">
-        <option ng-repeat="s in suppliers" value="{{s.Code}}">{{s.Name}}</option>
-    </select>
-    <a class="btn btn-success" ng-click="insert()">Add Product</a>
-
-</div>
-
-@section scripts{
-    <script src="~/Scripts_ngapp/MakeOrder.js"></script>
-    <script>
-        $('.datepicker').datepicker({
-            language: 'en',
-            isRTL: false,
-            format: 'dd/mm/yyyy',
-            autoclose: true
-
-        }).on('changeDate', function (selected) {
-            var inputs = $(this).closest('form').find(':input:visible');
-            var nextele = inputs.eq(inputs.index(this) + 1);
-            if (nextele.hasClass('datepicker') && nextele.hasClass('enddate')) {
-                var minDate = new Date(selected.date.valueOf());
-                $(nextele).datepicker('setStartDate', minDate);
-                $(nextele).val('');
-            }
-        });
-    </script>
-}
+        @section scripts{
+            <script src="~/Scripts_ngapp/MakeOrder.js"></script>
+        }

@@ -26,3 +26,7 @@ textarea {
     color: darkgreen;
     border-color: darkgreen;
 }
+
+.kda-datepicker {
+    width:160px;
+}

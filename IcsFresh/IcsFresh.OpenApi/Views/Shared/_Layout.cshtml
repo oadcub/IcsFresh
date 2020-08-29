@@ -38,6 +38,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("MakeOrder", "MakeOrder", "OrderPage", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("PrintOrder", "PrintOrder", "OrderPage", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
                     <li>@{ Html.RenderAction("MasterDataMenu", "Admin", new { area = string.Empty }); }</li>
 
@@ -49,21 +50,21 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - BkkFresh.com</p>
         </footer>
     </div>
     <script>
 
-this.undefinedToEmpty = function (obj) {
-    if (obj == undefined || obj == null) {
-        return '';
-    } else {
-        return obj;
-    }
-}
-this.isEmpty = function (obj) {
-    return this.undefinedToEmpty(obj) == '';
-}
+        this.undefinedToEmpty = function (obj) {
+            if (obj == undefined || obj == null) {
+                return '';
+            } else {
+                return obj;
+            }
+        }
+        this.isEmpty = function (obj) {
+            return this.undefinedToEmpty(obj) == '';
+        }
         var JSHELPER = {};
 
         JSHELPER.apiDefaultParameter = ''; //'?userid=administrator';
@@ -82,27 +83,37 @@ this.isEmpty = function (obj) {
     <link href="~/Content/chosen-sprite.png" rel="image_src" />
     <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <link href="~/Content/ui-bootstrap-csp.css" rel="stylesheet" />
     <script>
         $(".dropdown-menu li a").click(function () {
             var selText = $(this).text();
             $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
         });
     </script>
-
+    <script src="~/Scripts/moment.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angular-sanitize.min.js"></script>
     <script src="~/Scripts/angular-animate.min.js"></script>
     <script src="~/Scripts/angular-aria.min.js"></script>
     <script src="~/Scripts/angular-messages.js"></script>
-    <script src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>
+    @*<script src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>*@
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
     <script src="~/Scripts/angular-material.min.js"></script>
     <script src="~/Scripts/ng-table.min.js"></script>
     <script src="~/Scripts/angular-chosen.min.js"></script>
     <link href="~/Content/ui-bootstrap-csp.css" rel="stylesheet" />
     <script src="~/Scripts/global/PageHelper.js"></script>
+
     <script>
         var app = angular.module('myApp', ['ngTable', 'ui.bootstrap', 'ngSanitize', 'angular.chosen', 'ngMaterial']);
+    </script>
+    <script src="~/Scripts_ngapp/_service/http-client.service.js"></script>
+    <script src="~/Scripts_ngapp/_factory/utility.factory.js"></script>
+    <script src="~/Scripts_ngapp/_directive/datepicker/datepicker.directive.js"></script>
+
+
+    <script>
+
         app.directive('masterData', function (KdaHttp, $compile, $uibModal) {
             return {
                 replace: false,
@@ -123,8 +134,13 @@ this.isEmpty = function (obj) {
             };
         });
     </script>
-    <script src="~/Scripts_ngapp/_service/http-client.service.js"></script>
-    <script src="~/Scripts_ngapp/_factory/utility.factory.js"></script>
     @RenderSection("scripts", required: false)
+
+<script>
+    $(() =>
+    {
+        $scope = angular.element('[ng-controller]').scope()
+    });
+</script>
 </body>
 </html>

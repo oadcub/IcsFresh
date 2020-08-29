@@ -140,6 +140,7 @@
     <Compile Include="ApiControllers\OrderTemplateDetailController.cs" />
     <Compile Include="ApiControllers\MasterDataController.cs" />
     <Compile Include="ApiControllers\LanguageController.cs" />
+    <Compile Include="ApiControllers\OrdersController.cs" />
     <Compile Include="ApiControllers\SuppliersController.cs" />
     <Compile Include="ApiControllers\CategoriesController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -230,7 +231,13 @@
     <Compile Include="Ef\Supplier.cs">
       <DependentUpon>IcsFreshDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Ef\UnitMeter.cs">
+      <DependentUpon>IcsFreshDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Ef\User.cs">
+      <DependentUpon>IcsFreshDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ef\vOrderSummary.cs">
       <DependentUpon>IcsFreshDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -442,9 +449,14 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\ng-table.min.js" />
     <Content Include="Scripts\prototype.js" />
+    <Content Include="Scripts_ngapp\PrintOrder.js" />
     <Content Include="Scripts_ngapp\MasterData.js" />
     <Content Include="Scripts_ngapp\MakeOrder.js" />
     <Content Include="Scripts_ngapp\Product.js" />
@@ -487,6 +499,9 @@
     <Content Include="Views\Admin\MasterData.cshtml" />
     <Content Include="Views\OrderPage\MakeOrder.cshtml" />
     <Content Include="Views\Admin\MasterDataMenu.cshtml" />
+    <Content Include="Scripts\moment.min.js.map" />
+    <Content Include="Scripts\moment-with-locales.min.js.map" />
+    <Content Include="Views\OrderPage\PrintOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -21,6 +21,7 @@ namespace IcsFresh.OpenApi.Helper
             today = DateTime.Today;
             now = DateTime.Now;
             db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
         }
 
         protected void ErrorLog(string PrimaryKey, Exception ex)

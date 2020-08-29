@@ -28,6 +28,7 @@ namespace IcsFresh.OpenApi.Ef
         public Nullable<System.DateTime> LastUpdate { get; set; }
         public Nullable<System.Guid> CreatedBy { get; set; }
         public Nullable<System.Guid> LastUpdateBy { get; set; }
+        public string TemplateCode { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }

@@ -22,12 +22,14 @@
         <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_LastUpdateBy" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Order_User_SaleId" />
         <AssociationConnector Association="IcsFreshDbModel.FK_Product_Supplier" />
-        <EntityTypeShape EntityType="IcsFreshDbModel.OrderDetail" Width="1.5" PointX="5.25" PointY="3" />
         <EntityTypeShape EntityType="IcsFreshDbModel.OrderTemplateDetail" Width="1.5" PointX="8.25" PointY="8.25" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Order" />
-        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Product" />
         <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_OrderTamplate" />
         <AssociationConnector Association="IcsFreshDbModel.FK_OrderTemplateDetial_Product" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.OrderDetail" Width="1.5" PointX="5.25" PointY="3.125" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.UnitMeter" Width="1.5" PointX="3.375" PointY="0.75" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Order" />
+        <AssociationConnector Association="IcsFreshDbModel.FK_OrderDetail_Product" />
+        <EntityTypeShape EntityType="IcsFreshDbModel.vOrderSummary" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

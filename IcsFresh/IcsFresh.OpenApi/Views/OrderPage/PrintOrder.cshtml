@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Print Order";
+}
+    <div ng-app="myApp" ng-controller="printOrderController">
+        <div class="noPrint">
+            <input ng-model="FilterSearch.DeliveryDate" kda-datepicker />
+            <a class="btn btn-info" ng-click="searchOrder()">Search</a>
+        </div>
+        <div>
+            <div ng-repeat="t in templates" class="pagebreak">
+                <h3>{{t}} - {{FilterSearch.DeliveryDate | date:"dd/MM/yyyy"}}</h3>
+                <table class="table table-responsive table-bordered table-striped">
+                    <tr ng-repeat="item in orders | filter:{'TemplateName':t}">
+                        <td>{{$index + 1}}</td>
+                        <td>
+                            {{item.ProductCode}}
+                        </td>
+                        <td>
+                            {{item.Quantity}} {{item.UnitName}}
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<style>
+    @@media print {
+        .noPrint {
+            display: none;
+        }
+        .pagebreak {
+            page-break-after: always;
+        }
+    }
+
+    @@media screen {
+        .onlyPrint {
+            display: none;
+        }
+    }
+</style>
+@section scripts{
+    <script src="~/Scripts_ngapp/PrintOrder.js"></script>
+}

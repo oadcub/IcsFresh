@@ -12,5 +12,9 @@ namespace IcsFresh.OpenApi.Controllers
         {
             return View();
         }
+        public ActionResult PrintOrder()
+        {
+            return View();
+        }
     }
 }

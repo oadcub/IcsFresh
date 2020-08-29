@@ -12,14 +12,9 @@ namespace IcsFresh.OpenApi.Ef
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderTemplateDetail
+    public partial class UnitMeter
     {
-        public string TemplateCode { get; set; }
-        public string ProductCode { get; set; }
-        public Nullable<int> Seq { get; set; }
-        public string UnitMeter { get; set; }
-    
-        public virtual OrderTemplate OrderTemplate { get; set; }
-        public virtual Product Product { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
     }
 }

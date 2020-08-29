@@ -140,7 +140,7 @@ app.directive('kdaDatepicker', function ($uibModal, $compile) {
                     html += `ng-disabled="true"`;
                 }
             }
-            html += `><i class="glyph-icon icon-calendar"></i>
+            html += `><i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </span>
                         </div>`;
