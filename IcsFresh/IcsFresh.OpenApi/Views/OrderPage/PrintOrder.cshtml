@@ -5,6 +5,7 @@
         <div class="noPrint">
             <input ng-model="FilterSearch.DeliveryDate" kda-datepicker />
             <a class="btn btn-info" ng-click="searchOrder()">Search</a>
+            <a class="btn btn-success" onclick="window.print()">Print</a>
         </div>
         <div>
             <div ng-repeat="t in templates" class="pagebreak">
