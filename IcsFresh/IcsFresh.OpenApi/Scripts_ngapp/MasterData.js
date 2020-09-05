@@ -35,15 +35,22 @@ app.controller('mainController',
                 }
             );
         };
-        $scope.fn_New = function () {
+        $scope.fn_New = function()
+        {
             $scope.ViewMode = 'NEW';
             $scope.viewModel = {};
             $scope.entity.fields.filter(
-                function (item) {
-                    if (item.DefaultValue !== null) {
-                        if (item.Type == 'radio' || item.Type == 'checkbox') {
+                function(item) {
+                    if (item.DefaultValue !== null)
+                    {
+                        if (item.Type == 'radio' || item.Type == 'checkbox')
+                        {
                             $scope.viewModel[item.FieldName] = (item.DefaultValue == 'true');
-                        } else {
+                        } else if (item.DefaultValue == 'GUID')
+                        {
+                            $scope.viewModel[item.FieldName] = newGuid();
+                        } else
+                        {
                             $scope.viewModel[item.FieldName] = item.DefaultValue;
                         }
                     }
@@ -141,7 +148,12 @@ app.controller('mainController',
         };
 
 
-
+        function newGuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
 
     });
 

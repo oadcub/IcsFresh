@@ -16,11 +16,11 @@
             <li>@Html.ActionLink("Products", "Products", "ProductPage", new { area = "" }, null)</li>
             <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
         <li class="dropdown-submenu">
-            <a href="#">MasterData..</a>
+        @Html.ActionLink("MasterData...", "MasterDataMenu","Admin")
             <ul class="dropdown-menu">
                 @foreach (var item in Model)
                 {
-                    <li>@Html.ActionLink(item, "MasterData","Admin", new { id = item }, null)</li>
+                    <li>@Html.ActionLink(item, "MasterData", "Admin", new { id = item }, null)</li>
                 }
             </ul>
         </li>

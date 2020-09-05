@@ -17,7 +17,6 @@ namespace IcsFresh.OpenApi.Controllers
             return View(model);
         }
 
-        [ChildActionOnly]
         public ActionResult MasterDataMenu()
         {
             //Get the menuItems collection from somewhere
